@@ -65,7 +65,7 @@ void etapa2() {
 // Na etapa 3 voce deve implementar MyQueue2.h e descomentar os codigos de teste abaixo...
 
 void etapa3() {
-	/*char operacao;
+	char operacao;
 	MyQueue2<string> q;
 
 	//le um arquivo contendo "comandos" para a fila e aplica-os a fila criada com sua classe...
@@ -81,7 +81,7 @@ void etapa3() {
 		} else if(operacao=='e') {
 			cout << ((q.empty())?"vazia":"cheia") << "\n";
 		} else cout << q.size() << "\n";
-	}	*/
+	}	
 }
 
 //---------------------------------------
