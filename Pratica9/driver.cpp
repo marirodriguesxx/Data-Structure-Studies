@@ -3,12 +3,11 @@
 using namespace std;
 
 
+#include "MyStack.h"
+#include "MyQueue.h"
+#include "MyQueue2.h"
+
 // Insira aqui o codigo para a etapa 1....
-
-//Voce pode adicionar includes como o abaixo...
-//#include "MyStack.h"
-
-
 void etapa1() {
 	float entrada; 
     MyQueue<float> fila;
@@ -34,17 +33,37 @@ void etapa1() {
 //---------------------------------------
 
 // Insira aqui o codigo para a etapa 2....
-
 void etapa2() {
-	
+
+	MyStack<char> stack;
+	char c;
+	while(cin>>c){
+		if(c=='(' || c=='[' || c=='{')
+			stack.push(c);
+			
+		if(stack.empty() && (c==')' || c==']' || c=='}')){
+			cout << "Inconsistente\n"; return;
+		}
+
+		if(c==')' && stack.top()=='(')
+			stack.pop();
+		else if(c==']' && stack.top()=='[')
+			stack.pop();
+		else if(c=='}' && stack.top()=='{')
+			stack.pop();
+		
+		
+	}
+	if(stack.empty())
+		cout << "Consistente\n";
+	else
+		cout << "Inconsistente\n";
 }
 
 //---------------------------------------
 
 // Na etapa 3 voce deve implementar MyQueue2.h e descomentar os codigos de teste abaixo...
 
-
-//#include "MyQueue2.h"
 void etapa3() {
 	/*char operacao;
 	MyQueue2<string> q;
