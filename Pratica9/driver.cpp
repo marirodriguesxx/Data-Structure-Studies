@@ -89,7 +89,29 @@ void etapa3() {
 // Insira aqui o codigo para a etapa 4....
 
 void etapa4() {
-	
+	int size;
+	int element =0;
+	int curr = 0;
+    bool correct = true;
+    cin >> size;
+    MyStack<int> stack;
+    // Obtendo primeiro elemento
+    cin.ignore();
+    for (int i = 0; i < size; i++) {
+        cin >> element;
+
+        if (curr < element) 
+			for (int j = curr; j < element; j++)
+				 stack.push(++curr);
+				 
+        correct = !stack.empty() && stack.top() == element;
+        if (!correct) break;
+        stack.pop();
+    }
+	if(correct)
+		cout<<"SIM\n";
+	else
+		cout<<"NAO\n";
 }
 
 //---------------------------------------
