@@ -1,0 +1,107 @@
+1) Qual a complexidade de tempo das seguintes funcoes/operadores: pertence(), insere(), numElementos(), +, *, - .
+	Resposta: O(n)
+2) Considerando a função “+”, a ordem de complexidade do algoritmo depende da forma com que os elementos estão ordenados nos conjuntos? Justifique.
+	Resposta: O(n2), pois realiza comparações 
+3) Crie um programa que constrói dois conjuntos (do tipo Conjunto2) de inteiros A, B (cada um contendo n elementos, sendo que A = {1,2,3, …, n} e B={1,2,3, …, n} ) e, a seguir, calcule a união entre A e B utilizando o operador “+” (guarde o resultado disso em C). Por fim, imprima o resultado de “C.pertence(10)” na tela (não imprima o conjunto C… apenas o resultado dessa chamada -- isso deve ser feito para evitar que o compilador veja que nada está sendo feito com C e, assim, otimize o código removendo o cálculo de C). Meça o tempo de execuçao do seu programa para os seguintes valores de n: 10,100, 1000, 5000,10000, 20000,40000 . Escreva os tempos obtidos e o que você pode concluir a partir deles. Salve seu programa com o nome p31.cpp (e submeta junto com seu exercício).
+
+Para entrada de tamanho 10: real    0m0.022s
+user    0m0.000s
+sys     0m0.031s
+Para entrada de tamanho 100: 	real    0m0.023s
+      user    0m0.000s
+      sys     0m0.016s
+Para entrada de tamanho 1000:	real    0m0.033s
+user    0m0.000s
+sys     0m0.031s
+Para entrada de tamanho 5000:	real    0m0.208s
+user    0m0.188s
+sys     0m0.031s
+Para entrada de tamanho 10000:	real    0m0.762s
+user    0m0.734s
+sys     0m0.000s
+Para entrada de tamanho 20000:	real    0m2.996s
+user    0m2.969s
+sys     0m0.016s
+
+Para entrada de tamanho 40000:	real    0m11.742s
+user    0m11.719s
+sys     0m0.000s
+
+4) Repita os testes acima supondo que, dessa vez, A = {1,2,3, …, n} e B={-1,-2,-3,-4,...,-n}. Houve diferença no tempo? Houve uma diferença na forma com que o tempo cresce? Por que isso ocorre? Salve seu programa com o nome p32.cpp (e submeta junto com seu exercício).
+
+Para entrada de tamanho 10: real    real    0m0.024s
+user    0m0.000s
+sys     0m0.016s
+
+Para entrada de tamanho 100: 	real    0m0.023s
+user    0m0.000s
+sys     0m0.016s
+
+Para entrada de tamanho 1000:	real    0m0.033s
+user    0m0.016s
+sys     0m0.016s
+
+Para entrada de tamanho 5000:	real    0m0.225s
+user    0m0.188s
+sys     0m0.031s
+
+Para entrada de tamanho 10000:	real    0m0.764s
+user    0m0.750s
+sys     0m0.016s
+
+Para entrada de tamanho 20000:	real    0m2.955s
+user    0m2.922s
+sys     0m0.031s
+
+
+Para entrada de tamanho 40000:	real    0m11.859s
+user    0m11.844s
+sys     0m0.000s
+Notemos que na função insere é feita uma comparação, e há a chamada da função pertence. A função pertence irá comparar e analisar se um elemento pertence ao outro conjunto, e se ele pertencer, a função insere não irá inserir elementos duplicados na união. No programa do exercício 3, os conjuntos são iguais, então são feitas inserções a menos, devido ao fato do vetor ser percorrido vezes a menos na hora da chamada da função pertence, em relação ao conjunto de números negativos, pois nesse conjunto a função insere irá inserir o dobro de elementos no array, aumentando o tempo de execução.
+
+5) Repita os testes anteriores do item 4, mas agora compilando seu programa usando o comando “g++ -O3 programa.cpp”. A flag O3 ativa o nível de otimização máximo (o compilador utilizará muitas técnicas para melhorar o desempenho do seu programa). O que você observou em relação aos tempos obtidos?
+
+
+Para entrada de tamanho 10: real    real    0m0.027s
+user    0m0.000s
+sys     0m0.000s
+
+Para entrada de tamanho 100: 	real    0m0.024s
+user    0m0.000s
+sys     0m0.031s	
+
+Para entrada de tamanho 1000:	real    0m0.025s
+user    0m0.000s
+sys     0m0.016s
+
+Para entrada de tamanho 5000:	real    0m0.068s
+user    0m0.047s
+sys     0m0.000s
+
+
+
+Para entrada de tamanho 10000:	real    0m0.195s
+user    0m0.172s
+sys     0m0.016s
+
+Para entrada de tamanho 20000:	real    0m0.708s
+user    0m0.688s
+sys     0m0.016s	
+
+Para entrada de tamanho 40000:	real    0m2.823s
+user    0m2.797s
+sys     0m0.031s
+É notável a diferença no tempo de execução do problema. As execuções demandaram um tempo menor, principalmente em entradas maiores. Notemos que na questão da entrada de tamanho 40.000 houve uma diminuição de aproximadamente 4 vezes 
+
+
+sim ouve uma diferença de tempoe na forma que ele cresce para numeros maiores,isso ocorre porque a função pertence no p31.cpp tera a complexidade de (n+1)/2 ja no arquivo p32.cpp ira executar a n,isso ocorre porque no primeiro arquivo como os conjuntos sao iguais a funçao ira terminar antes de percorrer todo o vetor o que nao ocorre no segundo arquivo.
+[18:03]
+Uma grande diferença de tempo que apesar de ainda crescer de uma forma exponencial para numeros grandes é uma razao menor que a anterior.
+
+
+
+
+
+       
+ 
+
