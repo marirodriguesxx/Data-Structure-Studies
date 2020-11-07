@@ -8,13 +8,9 @@
 
 using namespace std;
 struct Food{
-<<<<<<< HEAD
     int row;
     int col;
     int lifetime;
-=======
-
->>>>>>> 0738e25a2dc91a8448bf2ec0466f71d8e3c47ddb
 };
 
 class Game{
