@@ -42,7 +42,8 @@ void etapa2() {
 			stack.push(c);
 			
 		if(stack.empty() && (c==')' || c==']' || c=='}')){
-			cout << "Inconsistente\n"; return;
+			cout << "Inconsistente\n"; 
+			return;
 		}
 
 		if(c==')' && stack.top()=='(')
@@ -54,10 +55,8 @@ void etapa2() {
 		
 		
 	}
-	if(stack.empty())
-		cout << "Consistente\n";
-	else
-		cout << "Inconsistente\n";
+	cout << ((stack.empty())?"Consistente":"Inconsistente") << "\n";
+
 }
 
 //---------------------------------------
@@ -68,7 +67,7 @@ void etapa3() {
 	char operacao;
 	MyQueue2<string> q;
 
-	//le um arquivo contendo "comandos" para a fila e aplica-os a fila criada com sua classe...
+
 	while(cin>> operacao) {
 		if(operacao=='p') {
 			string st;
@@ -89,29 +88,42 @@ void etapa3() {
 // Insira aqui o codigo para a etapa 4....
 
 void etapa4() {
-	int size;
-	int element =0;
-	int curr = 0;
-    bool correct = true;
-    cin >> size;
-    MyStack<int> stack;
-    // Obtendo primeiro elemento
-    cin.ignore();
-    for (int i = 0; i < size; i++) {
-        cin >> element;
+	int n;
+	//recebemos o tamanho da lista 
+	cin >> n;
+	//criamos um array com um espaço a mais que o tamanho da lista, pois o primeiro elemento será sempre n 
+	int input[n + 1];
+	//inicializamos a posição 0 com n
+	input[0] = n;
+	
+	for(int i = 1; i <= n; i ++){
+		cin >> input[i];
+	}
 
-        if (curr < element) 
-			for (int j = curr; j < element; j++)
-				 stack.push(++curr);
-				 
-        correct = !stack.empty() && stack.top() == element;
-        if (!correct) break;
-        stack.pop();
-    }
-	if(correct)
-		cout<<"SIM\n";
-	else
-		cout<<"NAO\n";
+	int tam = input[0];
+	int cont = input[1] + 1;
+	bool possible = true;
+	MyStack<int> stack;
+
+	for(int i = 1; i < tam ; i++) 
+		stack.push(i);
+
+	for(int i = 2; i <= tam; i ++){
+		if( cont <= input[i]){
+			while(cont <= input[i]){
+				stack.push(cont);
+				cont ++;
+			}
+		}
+		if(!stack.empty() && stack.top() >= input[i]){
+			while(!stack.empty() && stack.top() >= input[i]) 
+				stack.pop();
+		}
+		else{
+			possible = false;
+		}
+	}
+	cout << ((possible)?"SIM":"NAO") << "\n";
 }
 
 //---------------------------------------
