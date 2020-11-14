@@ -1,53 +1,108 @@
 #include "Screen.h"
-Screen::Screen(const int altura,const int largura){
+Screen::Screen(const int altura_,const int largura_){
+    altura = altura_;
+    largura = largura_;
     //Esse vetor recebera a quantidade de 'linhas' da matriz que representará a nossa tela
     //Primeiro, alocaremos da forma mais fácil, uma matriz retangular, iremos tratar os espeaços desnecessários na função set!
-    data = new int [altura];
-    //Alocaremos agora as colunas de todas as linhas
-    for(int i=0; i<largura; i++)
-        data[i] = new int [largura];
+    dataHeight = new int[largura];
+    data = new int *[largura];
+    //Alocaremos agora as linhas de todas as colunas
+    for(int i=0; i<largura; i++){
+        dataHeight[i] = 0;
+        data[i] = NULL;    
+    }
+    cout<<"Screen construída!\n";
         
 }
-void Screen::set(const int r,const int c,const int val){
-    data[r][c] = val;
-    //sempre que setarmos um novo elemento, daremos resize na matriz, para que aloque apenas o necessário sempre
-    if(val != EMPTY)
-        resizeRow(r,c);
+//Destrutor da matriz==========================================
+Screen::~Screen(){
+    for(int i=0; i<largura; i++)
+        delete []data[i];
+    delete []data;
+    delete []dataHeight;
+        
 }
-int Screen::get(const int r,const int c){
-    //Este if trata o caso em que é feita uma consulta em alguma posição fora dos limites da tela
-    if(r>getWidth() || c>getHeight())
-        return WALL;
-    return data[r][c];
 
+//Método get=================================================
+int Screen::get(const int r,const int c)const{ //ok
+    //Este if trata o caso em que é feita uma consulta em alguma posição fora dos limites da tela
+    if((r>getWidth()-1 && r<getWidth()-1)  || (c>getHeight()-1 && c<getHeight()-1)){
+        return WALL;
+    }
+    else if(dataHeight[c]==0 || r>= dataHeight[c] ){
+        return EMPTY;
+    }
+    else if(r>=0 && c>=0){
+        return data[c][r];
+    }
+
+}
+
+//Método set ====================================================================
+void Screen::set(const int r,const int c,const int val){ //ok
+    //sempre que setarmos um novo elemento, daremos resize na matriz, para que aloque apenas o necessário sempre
+    cout<<"-----------------------set----------------------------\n";
+    cout<<"linha: "<<r<<endl;
+    cout<<"coluna: "<<c<<endl;
+    if(val !=EMPTY){
+        resizeCol(c,r+1);
+        data[c][r] = val;
+        cout<<"data na linha "<<r<<" e coluna "<<c<<" = "<<data[c][r]<<endl;
+        cout<<"dataHeight["<<c<<"] = "<<dataHeight[c]<<endl; 
+    }
+    if(val == EMPTY && dataHeight[c] != 0){
+        cout<<"caso de setar empty\n";
+        data[c][r] = val;
+        dataHeight[c] = dataHeight[c]-1;
+        cout<<"dataHeight["<<c<<"] = "<<dataHeight[c]<<endl; 
+        cout<<"data na linha "<<r<<" e coluna "<<c<<" = "<<data[c][r]<<endl;
+    }    
 }
 
 //Função para redisionamento da matriz a cada chamada do método set
-void Screen::resizeRow(const int pos,const int newcols){   
-    //Atualizando o size
-    int dif = 0; 
-    dif = newcols - dataHeight[pos];           //fazemos essa conta pois somaremos, ou subtraímos, a diferença do numero de colunas naquela linha, que reflete no numero de elementos da matriz
-    
-    int menor=0;
-    if(newcols<dataHeight[pos])
-        menor = newcols;
-    else
-        menor = dataHeight[pos];
-    
-    //Alocamos um vetor auxiliar, pois alteraremos apenas o vetor de colunas da linha desejada
-    T* aux = new int[newcols];
-    for(int i=0; i<newcols; i++)
-        aux[i]=T();                     //inicializamos todos os valores com o valor padrão, para caso aumente o numero de colunas, as novas colunas sejam preenchidas com seu respectivo valor padrão de tipo
-    for(int i=0; i<menor; i++)
-        aux[i] = data[pos][i];        //salvamos os elementos gurdados nas colunas da linha desejada
-    
-    
-    //deletando o vetor correspondente a linha na qual será efetivada a mudança, e depois realocamos com o novo tamanho desejado
-    delete []data[pos];
-    data [pos] = new int[newcols];
-    for(int i=0; i<newcols; i++)
-        data[pos][i] = aux[i];           // resgatamos os valores salvos na variavel auxiliar
-    
-    delete []aux;                       //deletamos a variável auxiliar pois não será mais util
-    dataHeight[pos] = newcols;                 // atualizamos o numero de colunas que está armazenado no vetor tam    
+void Screen::resizeCol(const int pos,const int newrows){          //ok   
+    // if(dataHeight[pos] < newrows){
+    //     int* aux = new int[newrows];
+    //     for(int i=0; i<newrows; i++)
+    //         aux[i]=EMPTY;      
+        
+    //     for(int i=0; i<dataHeight[pos]; i++)
+    //         aux[i] = data[pos][i];        
+
+    //     delete []data[pos];
+        
+    //     data[pos] = new int[newrows];
+
+    //     for(int i=0; i<newrows; i++)
+    //         data[pos][i] = aux[i];           
+    //     cout<<"AQUI\n";
+    //     delete []aux;     
+    //     cout<<"newrows: "<<newrows<<endl;                 
+    //     dataHeight[pos] = newrows;    
+        
+    if(dataHeight[pos] == newrows)
+        return;
+
+        int menor =0;
+        if(dataHeight[pos]<newrows)
+            menor = dataHeight[pos];
+        else
+            menor = newrows;
+        
+        int* aux = new int[newrows];
+        for(int i=0; i<newrows; i++)
+            aux[i]=EMPTY;      
+        
+        for(int i=0; i<menor; i++)
+            aux[i] = data[pos][i];        
+
+        delete []data[pos];
+        
+        data[pos] = new int[newrows];
+
+        for(int i=0; i<newrows; i++)
+            data[pos][i] = aux[i];   
+        delete []aux;     
+        cout<<"newrows: "<<newrows<<endl;                 
+        dataHeight[pos] = newrows;  
 }

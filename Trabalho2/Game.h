@@ -8,29 +8,40 @@
 
 using namespace std;
 struct Food{
-    int row;
-    int col;
+    int foodrow;
+    int foodcol;
     int lifetime;
 };
 
 class Game{
     public:
     //Construtor da classe
-    Game(int altura, int largura, int tamSnake);
+    Game(const int altura,const int largura,const int tamSnake);
     ~Game();
+
     //Método que retorna o estado atual do jogo  - deve ser const pois não modificará o objeto
-    Screen getScreen()const;
+    const Screen &getScreen()const;
+
     //Método indicando se o movimento foi realizado com sucesso (true) ou não (false) 
-    bool step(int dr, int dc);
+    bool step(const int dr,const int dc);
+
     // adiciona um alimento na posição (r,c) (linha, coluna) da tela. 
     //O terceiro argumento (ttl -- time to live) indica por quanto tempo (em termos de iterações) o alimento deve existir 
-    void addFood(int r,int c,int ttl);
+    void addFood(const int r,const int c,const int ttl);
+
     //retorna um inteiro representando a quantidade de comida (ativa) atualmente no jogo.
-    int getNumFood();
+    int getNumFood()const{return NumFood;};
+
+    //Método que irá verificar se na próxima direção a cobra estará comendoou ou não
+    bool eating (const int r, const int c) const ;
+
+
+    
     private:
-    Snake cobra;
-    Screen tela;
+    Snake *cobra;
+    Screen* tela;
     Food comida[10];
+    int NumFood = 0;
 };
 
 #endif

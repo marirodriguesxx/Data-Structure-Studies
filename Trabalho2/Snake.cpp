@@ -5,44 +5,70 @@ Snake::Snake(int tamInicialSnake){
     for(int i=0;i<tamInicialSnake;i++){ 
         push_back(0,i); 
 	}
+	cout<<"Snake construída!\n";
 }
 
-void Snake::push_back(const int &h, const int &w) {
+void Snake::destroy(Node  *first) {
+	if(first==NULL) return;
+	destroy(first->next);
+	delete first;
+}
+
+void Snake::destroy() { 
+	destroy(dataFirst);
+}
+
+void Snake::push_back(const int &r, const int &c) {
 	coordinates elem;
-	elem.height = h;
-	elem.width =w;
+	elem.row = r;
+	elem.col =c;
 	if(dataFirst==NULL) { 
-		dataFirst = dataLast = new Node<cordinates>(elem);
+		dataFirst = dataLast = new Node(elem);
 	} 
     else {
-		dataLast->next = new Node<coordinates>(elem);
+		dataLast->next = new Node(elem);
 		dataLast->next->prev = dataLast;
 		dataLast = dataLast->next;
 	}	
 }
-
-int Snake::getLength(Node *last)const{
-	//Passo básico da recursão : se for uma lista vazia, seu size é zero
-	if(last==NULL){
-		return 0;
-	}	
-	//Andamos do final ao inicio da lista, somando 1 no retorno
-	return size(last->prev) + 1;
+int Snake::getLength()const{
+	//return getLength(dataLast);
+	int cont = 0;
+	Node *first = dataFirst;
+	while(first!=NULL){
+		cont++;
+		first = first->next;
+	}
+	return cont;
 }
 
 void Snake::draw(Screen &s,int state){
 	Node* cobra = dataFirst;
-	for(int i=0; i<getLength(); i++){
-		s.set(cobra.height,cobra.width,state);
+	while(cobra != NULL){
+		s.set(cobra->data.row,cobra->data.col,state);
 		cobra = cobra -> next;
 	}
 }
 
 void Snake::move(int dr,int dc,bool eating){
-	if(eating = false){
-		if(dr != 0 )
-			dataLast->data.height +=dr;
-		else
-			dataLast->data.height +=dc;
-	}
+	if(!eating){
+		cout<<"nao to comendo, diminuindo o rabo\n";
+		cout<<"Antiga linha da kbça : "<<dataFirst->data.row<<" -> Antiga coluna da kbça: "<<dataFirst->data.col<<endl;
+		Node* oldTail = dataFirst;
+		dataFirst = dataFirst -> next;
+		cout<<"Nova linha da kbça : "<<dataFirst->data.row<<" -> Nova coluna da kbça: "<<dataFirst->data.col<<endl;
+		delete oldTail;
+	}	
+	// if(dataLast->data.row==0 && dr<0){
+	// 	dr = -1*dr;
+	// }
+	// if(dataLast->data.col ==0 && dc<0){
+	// 	dc = 18*dc;
+	// }
+	coordinates newHead_;
+	cout<<"Antiga linha: "<<dataLast->data.row<<" -> Antiga coluna: "<<dataLast->data.col<<endl;
+	newHead_.row = dataLast->data.row +dr;
+	newHead_.col = dataLast->data.col + dc;
+	push_back(newHead_.row,newHead_.col);
+	cout<<"Nova linha: "<<newHead_.row<<" -> Nova coluna: "<<newHead_.col<<endl;
 }
