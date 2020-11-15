@@ -55,9 +55,11 @@ int main() {
 
     game.addFood(0,4,1);
     print(game.getScreen());
+    cout<<"Número de comidas:"<<game.getNumFood()<<endl;
 
     game.addFood(2,2,10);
     print(game.getScreen());
+    cout<<"Número de comidas:"<<game.getNumFood()<<endl;
 
     // game.step(0,1);
     // print(game.getScreen());
@@ -65,8 +67,9 @@ int main() {
     // game.step(0,1);
     // print(game.getScreen());
 
-    // game.addFood(4,4,10);
-    // print(game.getScreen());
+    game.addFood(4,4,10);
+    print(game.getScreen());
+    cout<<"Número de comidas:"<<game.getNumFood()<<endl;
 
     // game.step(1,0);
     // print(game.getScreen());

@@ -8,9 +8,9 @@
 
 using namespace std;
 struct Food{
-    int foodrow;
-    int foodcol;
-    int lifetime;
+    int foodrow=0;
+    int foodcol=0;
+    int lifetime=0;
 };
 
 class Game{
@@ -33,7 +33,8 @@ class Game{
     int getNumFood()const{return NumFood;};
 
     //Método que irá verificar se na próxima direção a cobra estará comendoou ou não
-    bool eating (const int r, const int c) const ;
+    bool eating (const int dr, const int dc)  ;
+    void reduceTtl();
 
 
     
@@ -42,6 +43,8 @@ class Game{
     Screen* tela;
     Food comida[10];
     int NumFood = 0;
+    int oldH =0;
+    int oldV=0;
 };
 
 #endif

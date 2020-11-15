@@ -30,6 +30,9 @@ class Snake{
     void move(int dr,int dc,bool eating);
     int getLength()const;
 
+    int getNextcol(const int dc)const;
+    int getNextrow(const int dr)const;
+
     void push_back(const int &h, const int &w);
     void destroy();
     void destroy(Node *first);

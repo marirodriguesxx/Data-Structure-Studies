@@ -29,7 +29,13 @@ int main() {
     snake.draw(screen,Screen::SNAKE);
     print(screen);
      cout<<"tamanho da snake:"<<snake.getLength()<<endl;
+
     
+    snake.draw(screen,Screen::EMPTY);
+    snake.move(1,0,false);
+    snake.draw(screen,Screen::SNAKE);
+    print(screen);
+
     snake.draw(screen,Screen::EMPTY);
     snake.move(1,0,false);
     snake.draw(screen,Screen::SNAKE);

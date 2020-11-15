@@ -41,6 +41,15 @@ int Snake::getLength()const{
 	}
 	return cont;
 }
+int Snake::getNextcol(const int dc)const{
+	Node* aux = dataLast;
+	return aux->data.col +dc;
+}
+int Snake::getNextrow(const int dr)const{
+	Node* aux = dataLast;
+	return aux->data.row +dr;
+
+}
 
 void Snake::draw(Screen &s,int state){
 	Node* cobra = dataFirst;
@@ -67,8 +76,10 @@ void Snake::move(int dr,int dc,bool eating){
 	// }
 	coordinates newHead_;
 	cout<<"Antiga linha: "<<dataLast->data.row<<" -> Antiga coluna: "<<dataLast->data.col<<endl;
-	newHead_.row = dataLast->data.row +dr;
-	newHead_.col = dataLast->data.col + dc;
+	// newHead_.row = dataLast->data.row +dr;
+	// newHead_.col = dataLast->data.col + dc;
+	newHead_.row = getNextrow(dr);
+	newHead_.col = getNextcol(dc);
 	push_back(newHead_.row,newHead_.col);
 	cout<<"Nova linha: "<<newHead_.row<<" -> Nova coluna: "<<newHead_.col<<endl;
 }
