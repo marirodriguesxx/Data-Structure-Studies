@@ -5,18 +5,28 @@
 using namespace std;
 
 void print(const Screen &s) {
-    for (int j = 0; j < s.getWidth() + 2; j++) cout << "-";
+    for (int j = 0; j < s.getWidth() + 2; j++) {
+        if(j == 0 || j== s.getWidth() + 1)
+            cout << "*";
+        else
+            cout << "-";
+    }
     cout << endl;
     for (int i = 0; i < s.getHeight(); i++) {
         cout << "|";
         for (int j = 0; j < s.getWidth(); j++) {
             if (s.get(s.getHeight() - 1 - i, j) == Screen::EMPTY) cout << " ";
-            else if (s.get(s.getHeight() - 1 - i, j) == Screen::SNAKE) cout << "~";
-            else cout << "$";
+            else if (s.get(s.getHeight() - 1 - i, j) == Screen::SNAKE) cout << "x";
+            else cout << "•";
         }
         cout << "|" << "\n";
     }
-    for (int j = 0; j < s.getWidth() + 2; j++) cout << "-";
+      for (int j = 0; j < s.getWidth() + 2; j++) {
+        if(j == 0 || j== s.getWidth() + 1)
+            cout << "*";
+        else
+            cout << "-";
+    }
     cout << "\n\n";
 }
 
@@ -38,6 +48,17 @@ int main() {
 
     snake.draw(screen,Screen::EMPTY);
     snake.move(1,0,false);
+    snake.draw(screen,Screen::SNAKE);
+    print(screen);
+
+    snake.draw(screen,Screen::EMPTY);
+    snake.move(0,-1,false);
+    snake.draw(screen,Screen::SNAKE);
+    print(screen);
+    cout<<"tamanho da snake:"<<snake.getLength()<<endl;
+
+    snake.draw(screen,Screen::EMPTY);
+    snake.move(0,1,true);
     snake.draw(screen,Screen::SNAKE);
     print(screen);
     cout<<"tamanho da snake:"<<snake.getLength()<<endl;

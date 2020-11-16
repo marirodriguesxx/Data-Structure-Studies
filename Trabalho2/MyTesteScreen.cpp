@@ -4,18 +4,28 @@
 using namespace std;
 
 void print(const Screen &s) {
-    for (int j = 0; j < s.getWidth() + 2; j++) cout << "-";
+    for (int j = 0; j < s.getWidth() + 2; j++) {
+        if(j == 0 || j== s.getWidth() + 1)
+            cout << "*";
+        else
+            cout << "-";
+    }
     cout << endl;
     for (int i = 0; i < s.getHeight(); i++) {
         cout << "|";
         for (int j = 0; j < s.getWidth(); j++) {
             if (s.get(s.getHeight() - 1 - i, j) == Screen::EMPTY) cout << " ";
-            else if (s.get(s.getHeight() - 1 - i, j) == Screen::SNAKE) cout << "~";
-            else cout << "F";
+            else if (s.get(s.getHeight() - 1 - i, j) == Screen::SNAKE) cout << "x";
+            else cout << "•";
         }
         cout << "|" << "\n";
     }
-    for (int j = 0; j < s.getWidth() + 2; j++) cout << "-";
+      for (int j = 0; j < s.getWidth() + 2; j++) {
+        if(j == 0 || j== s.getWidth() + 1)
+            cout << "*";
+        else
+            cout << "-";
+    }
     cout << "\n\n";
 }
 
@@ -34,20 +44,29 @@ int main() {
     // s.set(0, 9, Screen::SNAKE);
     // print(s);
     //Coloca tudo como Comida
+    // s.set(5, 3, Screen::SNAKE);
+    // print(s);
+    // s.set(4, 3, Screen::SNAKE);
+    // print(s);
+
     for (int i = 0; i < height; i++)
         for (int j = 0; j < width; j++)
             s.set(i, j, Screen::FOOD);
-            
-    print(s);
+     print(s);
 
-    // //Volta tudo para Empty
+    cout<<s.get(-10,-100)<<endl;
+    cout<<s.get(4,4)<<endl;
+
+    //Volta tudo para Empty
     for (int i = (height-1); i >= 0; i--)
         for (int j = (width-1); j >=0; j--)
             s.set(i, j, Screen::EMPTY);
 
     print(s);
-    for (int i = (width-1); i >=0; i--)
+    cout<<s.get(2,6)<<endl;
+    for (int i = (width-1); i >=0; i--){
         s.set(0, i, Screen::SNAKE);
+    }
     print(s);
     return 0;
 }

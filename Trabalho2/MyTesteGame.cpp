@@ -20,7 +20,7 @@ void print(const Screen &s) {
         cout << "|";
         for (int j = 0; j < s.getWidth(); j++) {
             if (s.get(s.getHeight() - 1 - i, j) == Screen::EMPTY) cout << " ";
-            else if (s.get(s.getHeight() - 1 - i, j) == Screen::SNAKE) cout << "~";
+            else if (s.get(s.getHeight() - 1 - i, j) == Screen::SNAKE) cout << "x";
             else cout << "•";
         }
         cout << "|" << "\n";
@@ -35,52 +35,47 @@ void print(const Screen &s) {
 }
 
 int main() {
-//    Screen screen(10,10);
-//    Foods foods;
-//    foods.insere(Position(0,5),2);
-//    foods.insere(Position(0,4),1);
-//    cout<<foods.size<<endl;
-//    foods.advanceTime(&screen);
-//    foods.remove(Position(0,4));
-//    cout<<foods.size<<endl;
-//    foods.advanceTime(&screen);
-//    cout<<foods.size<<endl;
-//    return 0 ;
-    // 5 6
     int height = 5;
     int width = 7;
-    int snakeSize = 3;
+    int snakeSize = 5;
     Game game(height, width, snakeSize);
     print(game.getScreen());
 
-    game.addFood(0,4,1);
-    print(game.getScreen());
-    cout<<"Número de comidas:"<<game.getNumFood()<<endl;
-
-    game.addFood(2,2,10);
-    print(game.getScreen());
-    cout<<"Número de comidas:"<<game.getNumFood()<<endl;
-
-    // game.step(0,1);
+    // game.addFood(0,4,1);
     // print(game.getScreen());
+    // cout<<"Número de comidas:"<<game.getNumFood()<<endl;
 
-    // game.step(0,1);
+    // game.addFood(2,2,10);
     // print(game.getScreen());
+    // cout<<"Número de comidas:"<<game.getNumFood()<<endl;
 
-    game.addFood(4,4,10);
+    cout<<"Move 1 para direita\n";
+    game.step(0,1);
     print(game.getScreen());
-    cout<<"Número de comidas:"<<game.getNumFood()<<endl;
 
-    // game.step(1,0);
-    // print(game.getScreen());
-//    for(int i=0;i<width; i++) {
-//        for (int j = 0; j < height; j++)
-//            game.getScreen().set(i,j,Screen::SNAKE);
-//    }
+    cout<<"Move 1 para direita\n";
+    game.step(0,1);
+    print(game.getScreen());
+
+    cout<<"Move 1 para direita\n";
+    game.step(0,1);
+    print(game.getScreen());
+
+//     game.addFood(4,4,10);
+//     print(game.getScreen());
+//     cout<<"Número de comidas:"<<game.getNumFood()<<endl;
+
+//     cout<<"Move 1 para cima\n";
+//     game.step(1,0);
+//     print(game.getScreen());
+//     cout<<"Move 1 para cima\n";
+//     game.step(1,0);
+//     print(game.getScreen());
+
 //    cout<<"h: "<<game.getScreen().getHeight()<<" ";
 //    cout<<"w: "<<game.getScreen().getWidth()<<"\n";
 //    print(game.getScreen());
-//
+
 //    game.addFood(0,4,2);
 //    game.addFood(2,2,10);
 //    print(game.getScreen());

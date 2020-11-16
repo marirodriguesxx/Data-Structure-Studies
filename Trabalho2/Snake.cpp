@@ -5,7 +5,7 @@ Snake::Snake(int tamInicialSnake){
     for(int i=0;i<tamInicialSnake;i++){ 
         push_back(0,i); 
 	}
-	cout<<"Snake construída!\n";
+	//cout<<"Snake construída!\n";
 }
 
 void Snake::destroy(Node  *first) {
@@ -61,11 +61,11 @@ void Snake::draw(Screen &s,int state){
 
 void Snake::move(int dr,int dc,bool eating){
 	if(!eating){
-		cout<<"nao to comendo, diminuindo o rabo\n";
-		cout<<"Antiga linha da kbça : "<<dataFirst->data.row<<" -> Antiga coluna da kbça: "<<dataFirst->data.col<<endl;
+		// cout<<"nao to comendo, diminuindo o rabo\n";
+		// cout<<"Antiga linha da kbça : "<<dataFirst->data.row<<" -> Antiga coluna da kbça: "<<dataFirst->data.col<<endl;
 		Node* oldTail = dataFirst;
 		dataFirst = dataFirst -> next;
-		cout<<"Nova linha da kbça : "<<dataFirst->data.row<<" -> Nova coluna da kbça: "<<dataFirst->data.col<<endl;
+		//cout<<"Nova linha da kbça : "<<dataFirst->data.row<<" -> Nova coluna da kbça: "<<dataFirst->data.col<<endl;
 		delete oldTail;
 	}	
 	// if(dataLast->data.row==0 && dr<0){
@@ -75,11 +75,11 @@ void Snake::move(int dr,int dc,bool eating){
 	// 	dc = 18*dc;
 	// }
 	coordinates newHead_;
-	cout<<"Antiga linha: "<<dataLast->data.row<<" -> Antiga coluna: "<<dataLast->data.col<<endl;
+	//cout<<"Antiga linha: "<<dataLast->data.row<<" -> Antiga coluna: "<<dataLast->data.col<<endl;
 	// newHead_.row = dataLast->data.row +dr;
 	// newHead_.col = dataLast->data.col + dc;
 	newHead_.row = getNextrow(dr);
 	newHead_.col = getNextcol(dc);
 	push_back(newHead_.row,newHead_.col);
-	cout<<"Nova linha: "<<newHead_.row<<" -> Nova coluna: "<<newHead_.col<<endl;
+	//cout<<"Nova linha: "<<newHead_.row<<" -> Nova coluna: "<<newHead_.col<<endl;
 }
