@@ -11,7 +11,6 @@ Screen::Screen(const int altura_,const int largura_){
         dataHeight[i] = 0;
         data[i] = NULL;    
     }
-    //cout<<"Screen construída!\n";
         
 }
 //Destrutor da matriz==========================================
