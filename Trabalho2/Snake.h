@@ -33,9 +33,14 @@ class Snake{
     int getNextcol(const int dc)const;
     int getNextrow(const int dr)const;
 
+    int getPrevrol()const;
+    int getPrevcol()const;
+
+
     void push_back(const int &h, const int &w);
     void destroy();
     void destroy(Node *first);
+    bool sentido(int lastR, int lastC)const;
 
     private:
     Node *dataFirst, * dataLast;

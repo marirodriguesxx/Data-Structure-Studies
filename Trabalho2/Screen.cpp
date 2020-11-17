@@ -40,14 +40,32 @@ int Screen::get(const int r,const int c)const{ //ok
 //Método set ====================================================================
 void Screen::set(const int r,const int c,const int val){ //ok
     //sempre que setarmos um novo elemento, daremos resize na matriz, para que aloque apenas o necessário sempre o necessário
+    if(r<altura && c<largura && r>=0 && c>=0 ){
     if(val !=EMPTY){
         resizeCol(c,r+1);
         data[c][r] = val;
     }
     if(val == EMPTY && dataHeight[c] != 0){
         data[c][r] = val;
-        dataHeight[c] = dataHeight[c]-1;
-    }    
+        for(int i=dataHeight[c]-1;i>=0;i--){
+            if(data[c][i] != EMPTY){
+                int* aux = new int[i+1];
+                for(int j=0; j<=i; j++){
+                    aux[j] = data[c][j];
+                }
+                delete []data[c];
+                data[c] = aux;
+                dataHeight[c] = i+1;
+                return;
+            }
+        }
+        delete []data[c];
+        data[c] = NULL;
+        dataHeight[c]=0;
+        
+        //dataHeight[c] = dataHeight[c]-1;
+    }  
+    }
 }
 
 //Função para redisionamento da matriz a cada chamada do método set
@@ -61,14 +79,11 @@ void Screen::resizeCol(const int pos,const int newrows){          //ok
             aux[i] = data[pos][i];        
 
         delete []data[pos];
+    
         
-        data[pos] = new int[newrows];
-
-        for(int i=0; i<newrows; i++)
-            data[pos][i] = aux[i];    
-            
-        delete []aux;                     
+        data[pos] = aux; 
+                                 
         dataHeight[pos] = newrows; 
-    }   
+    }  
         
 }

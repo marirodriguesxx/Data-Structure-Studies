@@ -30,6 +30,7 @@ void Snake::push_back(const int &r, const int &c) {
 		dataLast = dataLast->next;
 	}	
 }
+
 int Snake::getLength()const{
 	//return getLength(dataLast);
 	int cont = 0;
@@ -40,14 +41,25 @@ int Snake::getLength()const{
 	}
 	return cont;
 }
+
 int Snake::getNextcol(const int dc)const{
 	Node* aux = dataLast;
 	return aux->data.col +dc;
 }
+
 int Snake::getNextrow(const int dr)const{
 	Node* aux = dataLast;
 	return aux->data.row +dr;
 
+}
+ int Snake::getPrevrol()const{
+	 Node* aux = dataLast;
+	 return aux->prev->data.row;
+	 
+}
+int Snake::getPrevcol()const{
+	Node* aux = dataLast;
+	return aux->prev->data.col;
 }
 
 void Snake::draw(Screen &s,int state){
@@ -58,20 +70,16 @@ void Snake::draw(Screen &s,int state){
 	}
 }
 
-void Snake::move(int dr,int dc,bool eating){
-	// if(dataLast->prev->data.row == getNextrow(dr) || dataLast->prev->data.col == getNextcol(dc)){
-	// 	dr = -1*dr;
-	// 	dc = -1*dc;
-	// }
 
-	if(!eating){
-		Node* oldTail = dataFirst;
-		dataFirst = dataFirst -> next;
-		delete oldTail;
-	}	
+
+void Snake::move(int dr,int dc,bool eating){
 	coordinates newHead_;
 	newHead_.row = getNextrow(dr);
 	newHead_.col = getNextcol(dc);
-	push_back(newHead_.row,newHead_.col);
-	
+	push_back(newHead_.row,newHead_.col);	
+	if(!eating ){
+		Node* oldTail = dataFirst;
+		dataFirst = dataFirst -> next;
+		delete oldTail;
+	}
 }

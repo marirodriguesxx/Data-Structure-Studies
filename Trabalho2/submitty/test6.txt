@@ -1,0 +1,33 @@
+10 20 5
+step 0 1
+step 0 1
+step 0 1
+step 0 1
+step 1 0
+step 1 0
+food 6 12 14
+step 1 0
+step 1 0
+step 1 0
+step 1 0
+step 1 0
+step 0 1
+step 0 1
+step 0 1
+step -1 0
+step -1 0
+step -1 0
+food 1 8 99
+step -1 0
+step -1 0
+step 0 1
+step 0 1
+step 1 0
+step 1 0
+step 1 0
+step 0 -1
+step 0 -1
+step -1 0
+step -1 0
+step -1 0
+step -1 0

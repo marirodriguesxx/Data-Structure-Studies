@@ -16,7 +16,7 @@ class Screen{
     int get(const int r,const int c)const;
     void set(const int r,const int c,const int val);
     
-    //metodos que serão auxiliares para a função set e que foram implementados no trabalho 1
+    //metodo que será auxiliar para a função set e que foram implementados no trabalho 1
     //a função sofreu algumas alterações para que fosse implementada nesse trabalho
     void resizeCol(const int pos,const int newrows); 
 
