@@ -43,7 +43,6 @@ class Game{
     Screen* tela;
     Food comida[10];
     int NumFood = 0;
-    int tempo=0;
 };
 
 #endif
