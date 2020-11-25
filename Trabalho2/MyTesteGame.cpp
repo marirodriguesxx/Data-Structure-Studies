@@ -31,23 +31,29 @@ int main() {
     Game game(height, width, snakeSize);
     print(game.getScreen());
 
-    game.addFood(0,4,1);
-    print(game.getScreen());
+    cout<<"copia\n";
+    Game jogo = game;
+    print(jogo.getScreen());
 
-    game.addFood(2,2,10);
-    print(game.getScreen());
+    
 
-    game.step(0,1);
-    print(game.getScreen());
+    jogo.addFood(0,4,1);
+    print(jogo.getScreen());
 
-    game.step(0,1);
-    print(game.getScreen());
+    // game.addFood(2,2,10);
+    // print(game.getScreen());
 
-    game.addFood(4,4,10);
-    print(game.getScreen());
+    jogo.step(0,1);
+    print(jogo.getScreen());
 
-    game.step(1,0);
-    print(game.getScreen());
+    // game.step(0,1);
+    // print(game.getScreen());
+
+    // game.addFood(4,4,10);
+    // print(game.getScreen());
+
+    // game.step(1,0);
+    // print(game.getScreen());
 
 
     return 0;

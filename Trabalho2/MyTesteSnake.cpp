@@ -40,28 +40,35 @@ int main() {
     print(screen);
      cout<<"tamanho da snake:"<<snake.getLength()<<endl;
 
+    cout<<"Copia!\n";
+     Snake snake2 = snake;
+     Screen screen2=screen;
+     snake2.draw(screen2,Screen::SNAKE);
+     print(screen2);
+     cout<<"tamanho da snake:"<<snake.getLength()<<endl;
+
     
-    snake.draw(screen,Screen::EMPTY);
-    snake.move(1,0,false);
-    snake.draw(screen,Screen::SNAKE);
-    print(screen);
+    snake2.draw(screen2,Screen::EMPTY);
+    snake2.move(1,0,false);
+    snake2.draw(screen2,Screen::SNAKE);
+    print(screen2);
 
     snake.draw(screen,Screen::EMPTY);
     snake.move(1,0,false);
     snake.draw(screen,Screen::SNAKE);
     print(screen);
 
-    snake.draw(screen,Screen::EMPTY);
-    snake.move(0,-1,false);
-    snake.draw(screen,Screen::SNAKE);
-    print(screen);
-    cout<<"tamanho da snake:"<<snake.getLength()<<endl;
+    // snake.draw(screen,Screen::EMPTY);
+    // snake.move(0,-1,false);
+    // snake.draw(screen,Screen::SNAKE);
+    // print(screen);
+    // cout<<"tamanho da snake:"<<snake.getLength()<<endl;
 
-    snake.draw(screen,Screen::EMPTY);
-    snake.move(0,1,true);
-    snake.draw(screen,Screen::SNAKE);
-    print(screen);
-    cout<<"tamanho da snake:"<<snake.getLength()<<endl;
+    // snake.draw(screen,Screen::EMPTY);
+    // snake.move(0,1,true);
+    // snake.draw(screen,Screen::SNAKE);
+    // print(screen);
+    // cout<<"tamanho da snake:"<<snake.getLength()<<endl;
     
     return 0;
 }

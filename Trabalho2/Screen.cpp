@@ -40,6 +40,7 @@ Screen & Screen::operator=(const Screen &other){
         altura = other.altura;
         largura = other.largura;
         
+        //realocaremos os vetores com seus novos tamanhos respectivos e receberemos os elementos da screen other
         dataHeight = new int[getWidth()];
         for(int i=0; i<getWidth(); i++){
             dataHeight[i] = other.dataHeight[i];        

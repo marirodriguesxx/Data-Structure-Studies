@@ -18,6 +18,9 @@ class Game{
     Game(const int altura,const int largura,const int tamSnake);
     ~Game();
 
+    Game(const Game &);
+	Game & operator=(const Game &);
+
     //Método que retorna o estado atual do jogo  - deve ser const pois não modificará o objeto
     const Screen &getScreen()const;
 

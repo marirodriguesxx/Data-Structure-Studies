@@ -18,13 +18,13 @@ Snake& Snake::operator=(const Snake &other) {
 	destroy();
 	dataFirst = dataLast  = NULL;
 	
-	if(other.dataFirst == NULL) {
+	if(other.dataFirst == NULL) {		//verificando o caso de ser uma cobra "vazia", n precisaremos reatribuir, pois acabamos de setar NULL
 		dataFirst = dataLast = NULL;
 	} 
 	else{
-		Node *curr = other.dataFirst;
+		Node *curr = other.dataFirst;		//criamos um nodo copiando o outro
 		//percorrermos a lista, copiando seus valores
-		while(curr!=NULL) { 
+		while(curr!=NULL) { 				//enquanto houver nodos, salvaremos as posições respectivas da cobra
 			push_back(curr->data.row,curr->data.col);
 			curr = curr->next; 
 		}

@@ -40,7 +40,7 @@ void etapa2() {
 	while(cin>>c){
 		if(c=='(' || c=='[' || c=='{')
 			stack.push(c);
-			
+		//Quando começamos sem abrir os elementos antes a entrada ja se torna inconsistente desde o primeiro char 	
 		if(stack.empty() && (c==')' || c==']' || c=='}')){
 			cout << "Inconsistente\n"; 
 			return;
@@ -88,44 +88,31 @@ void etapa3() {
 // Insira aqui o codigo para a etapa 4....
 
 void etapa4() {
-	int n;
-	//recebemos o tamanho da lista 
-	cin >> n;
-	//criamos um array com um espaço a mais que o tamanho da lista, pois o primeiro elemento será sempre n 
-	int input[n + 1];
-	//inicializamos a posição 0 com n
-	input[0] = n;
-	
-	for(int i = 1; i <= n; i ++){
-		cin >> input[i];
-	}
+	int size;
+	int element =0; // elemento a ser inserido 
+	int curr = 0; //elemento atual 
+    bool correct = true;
 
-	int tam = input[0];
-	int cont = input[1] + 1;
-	bool possible = true;
-	MyStack<int> stack;
+    cin >> size;
+    MyStack<int> stack;
 
-	for(int i = 1; i < tam ; i++) 
-		stack.push(i);
-
-	for(int i = 2; i <= tam; i ++){
-		if( cont <= input[i]){
-			while(cont <= input[i]){
-				stack.push(cont);
-				cont ++;
-			}
+    for (int i = 0; i < size; i++) {
+        cin >> element;
+        if (curr < element) {
+			for (int j = curr; j < element; j++)
+				 stack.push(++curr);
 		}
-		if(!stack.empty() && stack.top() >= input[i]){
-			while(!stack.empty() && stack.top() >= input[i]) 
-				stack.pop();
-		}
-		else{
-			possible = false;
-		}
-	}
-	cout << ((possible)?"SIM":"NAO") << "\n";
+				 
+        correct = !stack.empty() && stack.top() == element;
+        if (!correct) 
+			break;
+        stack.pop();
+    }
+	if(correct)
+		cout<<"SIM\n";
+	else
+		cout<<"NAO\n";
 }
-
 //---------------------------------------
 
 

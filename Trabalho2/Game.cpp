@@ -1,4 +1,6 @@
 #include"Game.h"
+#include"Screen.h"
+#include "Snake.h"
 //contrutor ======================================================
 Game::Game(const int altura,const int largura,const int tamSnake){
     //chamamos os construtores de tais classes
@@ -7,10 +9,27 @@ Game::Game(const int altura,const int largura,const int tamSnake){
     cobra->draw(*tela,Screen::SNAKE);
 }
 
+//Construtor de cópia e operador de atribuição =================
+Game::Game(const Game &other){
+    tela = NULL;
+    cobra = NULL;
+    *this = other;      //Chmamos o operador de atribuição
+}
 
+Game & Game::operator=(const Game &other){
+    if(this==&other) return *this;      //verificando a autoatribuição!
+    tela = NULL;
+    cobra = NULL;
+    //Aqui, iremos chamar os operados implementados nas outras classes e redesenhamos a cobra
+    cobra = new Snake (*other.cobra);
+    tela = new Screen (*other.tela);
+    cobra->draw(*tela, Screen::SNAKE);
+
+    return *this;
+}
 
 //Destrutor ======================================================
-Game::~Game(){
+Game::~Game(){ //Aqui, chamamos os destrutores dos recpectivos objetos criados 
     delete tela;
     delete cobra;
 }
