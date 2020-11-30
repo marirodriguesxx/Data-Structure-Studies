@@ -5,31 +5,60 @@
 #include "MyVecNewIterator.h"
 #include "MyMap.h"
 #include <utility>
-
+#include <fstream>
+#include <algorithm>
 using namespace std;
 
 void format(string & line){
-    transform(line.begin(), line.end(), line.begin(), ::tolower);
-    replace( line.begin(), line.end(), ' ', ',');
-    replace( line.begin(), line.end(), '!', ',');
-    replace( line.begin(), line.end(), '0', ',');
-    replace( line.begin(), line.end(), '1', ',');
-    replace( line.begin(), line.end(), '2', ',');
-    replace( line.begin(), line.end(), '3', ',');
-    replace( line.begin(), line.end(), '4', ',');
-    replace( line.begin(), line.end(), '5', ',');
-    replace( line.begin(), line.end(), '6', ',');
-    replace( line.begin(), line.end(), '7', ',');
-    replace( line.begin(), line.end(), '8', ',');
-    replace( line.begin(), line.end(), '9', ',');
+    int tam =line.size();
+
+    for(int i=0; i<tam; i++){
+        if(line[i]=='\"' || line[i] =='\'' ||line[i] == '\n' || line[i] ==' '){
+                if(line[i-1] != ',' && line[i-1]!='\0' && line[i-1] != '\n') //adicionamos este if pois aqui tratamos os casos possiveis de inio de linha
+                line[i] = ',';
+                else{
+                line[i] = '\0';
+                }
+        }
+        else if((ispunct(line[i]) || isdigit(line[i])) && line[i] != '-'){           //Se for um ponto (exceto travessão)ou dígito substituímos por \n
+                line[i] = '\n';
+        }
+        else if(isupper(line[i])){          //Se for uma letra maíscula, transformamos para minúscula
+            line[i] = tolower(line[i]);
+        }
+    }
 };
+
+void leTreino(string &line){
+        if(line == "COMECO_TREINO"){
+        
+            do{
+                getline(cin,line);
+                if(line ==  "FINAL_TREINO") break;
+                format(line);
+                cout<<"após formatação: "<<line<<endl;
+            }
+            while(line != "FINAL_TREINO");
+        } 
+}
+
+void leComando(string &operation, string &word, int &k){
+    // convertendo para inteiro (k) o valor recebido no arquivo
+    k = atoi(&word[1]);
+    cout<<"word[1]: "<<word[1]<<"\n";
+    if(operation.compare("consultar") ==0)
+        cout<<"estou consultando\n";
+    else if (operation.compare("gerar") ==0)
+        cout<<"estou gerando\n";
+}
+
 void AddDictionary(const string& line){
 
 };
 
 int main(int argc, char *argv[]){
 
-    string entrada;
+    string word;
     string line;
     int k = 0;
 
@@ -37,18 +66,18 @@ int main(int argc, char *argv[]){
     MyMap<string,MyMap<string,int>>map2;
     MyMap<string, MyMap<string,MyMap<string,int>>>map3;
     
-    // getline(cin,line);
-    // cout<<line<<endl;       
-    while(cin>>line){
-    cin>>line;
-    cout<<line<<endl;  
-    if(line.compare("COMECO_TREINO") == 0 ){  
-        while(line.compare("FINAl_TREINO") != 0){
-            cin>>line;
-            if(line.compare("FINAl_TREINO") == 0) break;
-        }
-         cout<<"aqui\n";
-    }
+
+    while(getline(cin,line)){
+        leTreino(line); 
+        
+        //faremos isso para ignorar a linha "FINAL_TREINO"
+        // if(line != "FINAL_TREINO"){
+        // getline(cin,word);
+        // cout<<line<<word<<endl;
+        // leComando(line,word,k);
+        // cout<<"k: "<<k<<endl;
+        // }       
+        
     }
     
 
