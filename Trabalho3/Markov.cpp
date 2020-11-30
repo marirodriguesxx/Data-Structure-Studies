@@ -14,14 +14,18 @@ void format(string & line){
 
     for(int i=0; i<tam; i++){
         if(line[i]=='\"' || line[i] =='\'' ||line[i] == '\n' || line[i] ==' '){
+                
                 if(line[i-1] != ',' && line[i-1]!='\0' && line[i-1] != '\n') //adicionamos este if pois aqui tratamos os casos possiveis de inio de linha
                 line[i] = ',';
                 else{
                 line[i] = '\0';
                 }
         }
-        else if((ispunct(line[i]) || isdigit(line[i])) && line[i] != '-'){           //Se for um ponto (exceto travessão)ou dígito substituímos por \n
+        else if((ispunct(line[i]) || isdigit(line[i])) && line[i] != '-' ){           //Se for um ponto (exceto travessão)ou dígito substituímos por \n
+                if(line[i-1] != '\n')
                 line[i] = '\n';
+                else
+                line[i] = '\0';
         }
         else if(isupper(line[i])){          //Se for uma letra maíscula, transformamos para minúscula
             line[i] = tolower(line[i]);
@@ -36,7 +40,7 @@ void leTreino(string &line){
                 getline(cin,line);
                 if(line ==  "FINAL_TREINO") break;
                 format(line);
-                cout<<"após formatação: "<<line<<endl;
+                cout<<line;
             }
             while(line != "FINAL_TREINO");
         } 
@@ -57,7 +61,6 @@ void AddDictionary(const string& line){
 };
 
 int main(int argc, char *argv[]){
-
     string word;
     string line;
     int k = 0;
