@@ -31,8 +31,10 @@ void storage(const string &line, MyVec<string> &tokens){
     while(aux){
         string tok;
         aux >> tok;
-        //cout << "token: " << tok << endl;
-        tokens.push_back(tok);
+        // cout << "token: " << tok << endl;
+        // cout<<"Tok size: "<<tok.size()<<endl;
+        if(tok.size()>0) //para nao salvarmos strings vazias em nosso
+            tokens.push_back(tok);
     }
 }
 
@@ -43,10 +45,13 @@ void sort(MyMap<string, int> &mp1){
 //Funções maps1, map2 e map3 auxiliares=============================================================================================
 void createmap1 (MyMap<string,int> &map1,  MyVec<string>& words){    
     for(int i=0; i<words.size(); i++){
+    if(words[i] != " " && words[i] != "\n")
         map1[words[i]]++;
-        //cout<<"certo: "<<map1[words[i]]<<endl;
-        //cout<< words[i] << " ("<<map1[words[i]]<<")"<<'\n';
     }
+
+}
+
+void createmap2(MyMap<string,MyMap<string,int>> &map2, const MyMap<string,int> &map1){
 
 }
 
@@ -61,6 +66,7 @@ void print(MyMap<string,int> &m1){
 
 void AddDictionary( MyVec<string>& words, MyMap<string,int> &mp1){
     createmap1(mp1,words);
+    print(mp1);
 
 }
 
@@ -68,7 +74,9 @@ void AddDictionary( MyVec<string>& words, MyMap<string,int> &mp1){
 //Funções para leitura do arquivo ==================================================================================================
 void readTreino(string &line){
     MyVec<string> tokens;
-    MyMap<string,int>mp1;
+    MyMap<string,int>map1;
+    MyMap<string,MyMap<string,int>>map2;
+    MyMap<string, MyMap<string,MyMap<string,int>>>map3;
     if(line == "COMECO_TREINO"){        
         do{
             //Primeiro, recebemos o consteúdo das linhas e formatamos para auxiliar na criação do dicionário
@@ -80,8 +88,8 @@ void readTreino(string &line){
             //cout<<tokens<<endl;
         }
         while(line != "FINAL_TREINO");
-        AddDictionary(tokens,mp1);
-        print(mp1);
+        AddDictionary(tokens,map1);
+        
     } 
 }
 

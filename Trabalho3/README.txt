@@ -7,6 +7,5 @@ Matrícula: Es98875
         2 - https://stackoverflow.com/questions/28305784/replacing-entire-string-with-uppercase-character-in-c
         3 - https://stackoverflow.com/questions/313970/how-to-convert-stdstring-to-lower-case
         4 - https://pt.wikibooks.org/wiki/Programar_em_C%2B%2B/Manipulando_strings
-        5 - https://www.geeksforgeeks.org/stringstream-c-applications/
-        6 - https://stackoverflow.com/questions/1452721/why-is-using-namespace-std-considered-bad-practicehttps://stackoverflow.com/questions/1452721/why-is-using-namespace-std-considered-bad-practice
         7 - https://stackoverflow.com/questions/36213391/read-every-word-in-a-string-c
+        8 - https://www.geeksforgeeks.org/sorting-a-vector-in-c/
