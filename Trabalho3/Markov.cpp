@@ -39,19 +39,62 @@ void storage(const string &line, MyVec<string> &tokens){
 }
 
 //Função que ordena de acordo com o valor ===========================================================================================
-// bool smaller(const pair<string, int> &x, const pair<string, int> &y){ 
-//     return (x.second < y.second); 
-// }
-// void sort(MyMap<string, int> &map){ 
-//     MyVec<pair<string, int>> sorted;
-//     MyMapIterator<string, int> it = map.begin();
-//     while(it != Map.end()){
-//         sorted.push_back(make_pair((*it).first, (*it).second));
-//         it++;
-//     } 
-//     sort(sorted.begin(), sorted.end(), smaller());   
+bool smaller(const pair<string, int> &x, const pair<string, int> &y){ 
+    return (x.second < y.second); 
+}
+void sort1(MyMap<string, int> &map){ 
+    MyVec<pair<string, int>> sorted;
+    MyMapIterator<string, int> it = map.begin();
+    while(it != map.end()){
+        sorted.push_back(make_pair((*it).first, (*it).second));
+        it++;
+    } 
+    sort(sorted.begin(), sorted.end(), &smaller);
+    for (int i = 0; i < sorted.size(); i++)	{
+		cout << sorted[i].first << ": " << sorted[i].second << endl;
+	}
   
-// }
+}
+void sort2(MyMap<string,int> &m1, MyMap<string,MyMap<string,int>> &m2){ 
+    MyVec<pair<string, int>> sorted;
+    MyMapIterator<string,MyMap<string,int>> it2 = m2.begin();
+    while(it2 != m2.end()){
+        MyMapIterator<string, int> it1 = (*it2).second.begin();
+            while(it1 != m1.end()){
+                string chave = (*it2).first + " " + (*it1).first;
+                sorted.push_back(make_pair(chave, (*it1).second));
+                it1++;
+            }
+        it2++;
+    }
+    sort(sorted.begin(), sorted.end(), &smaller);
+    for (int i = 0; i < sorted.size(); i++)	{
+		cout << sorted[i].first << ": " << sorted[i].second << endl;
+	}
+  
+}
+void sort3(MyMap<string,int> &m1, MyMap<string,MyMap<string,int>> &m2,  MyMap<string, MyMap<string,MyMap<string,int>>> &m3){
+    MyVec<pair<string, int>> sorted;
+    MyMapIterator<string, MyMap<string,MyMap<string,int>>> it3 = m3.begin();
+    while(it3 != m3.end()){
+        MyMapIterator<string,MyMap<string,int>> it2 = (*it3).second.begin();
+        while(it2 != m2.end()){
+            MyMapIterator<string, int> it1 = (*it2).second.begin();
+            while(it1 != m1.end()){
+                string chave = (*it3).first + " " + (*it2).first + " "+(*it1).first;
+                sorted.push_back(make_pair(chave, (*it1).second));
+                it1++;
+            }
+            it2++;
+        }
+        it3++;
+    }
+    sort(sorted.begin(), sorted.end(), &smaller);
+    for (int i = 0; i < sorted.size(); i++)	{
+		cout << sorted[i].first << ": " << sorted[i].second << endl;
+	}
+}
+
 
 //Funções maps1, map2 e map3 auxiliares=============================================================================================
 void createmap1 (MyMap<string,int> &map1,  MyVec<string>& words){    
@@ -72,7 +115,7 @@ MyMap<string,int> &map1, MyVec<string>& words){
     }
 }
 
-//Função imprime ==================================================================================================================
+//Funções imprime para cada map =====================================================================================================
 void printMap1(MyMap<string,int> &m1){
     MyMapIterator<string, int> it1 = m1.begin();
     while(it1 != m1.end()){
@@ -129,19 +172,26 @@ MyMap<string, MyMap<string,MyMap<string,int>>> &map3){
             getline(cin,line);
             if(line ==  "FINAL_TREINO") break;
             format(line);   
+            cout<<line<<endl;
             MyVec<string> tokens;             
             storage(line,tokens);
             sentences.push_back(tokens);
-            //cout<< tokens<<endl;
+            cout<< tokens<<endl;
             AddDictionary(tokens,map1,map2,map3);
         }
         while(line != "FINAL_TREINO");
         cout<<"================MAP1==================\n";
         printMap1(map1);
+        cout<<"================MAP1  SORTED==================\n";
+        sort1(map1);
         cout<<"================MAP2==================\n";
         printMap2(map1,map2);
+        cout<<"================MAP2  SORTED==================\n";
+        sort2(map1,map2);
         cout<<"================MAP3==================\n";
         printMap3(map1,map2,map3);
+        cout<<"================MAP3  SORTED==================\n";
+        sort3(map1,map2,map3);
         //cout<<"vetor final: "<<sentences;      
     } 
 }
