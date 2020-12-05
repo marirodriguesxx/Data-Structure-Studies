@@ -107,10 +107,9 @@ void printMap3(MyMap<string,int> &m1, MyMap<string,MyMap<string,int>> &m2,  MyMa
     }
 }
 
-
 //Função para criação do dicionário ================================================================================================
 void AddDictionary( MyVec<string>& words, MyMap<string,int> &map1,
-MyMap<string,MyMap<string,int>> &map2, MyMap<string, MyMap<string,MyMap<string,int>>> &map3){
+    MyMap<string,MyMap<string,int>> &map2, MyMap<string, MyMap<string,MyMap<string,int>>> &map3){
     createmap1(map1,words);
     createmap2(map2,map1,words);
     createmap3(map3,map2,map1,words);
@@ -118,11 +117,12 @@ MyMap<string,MyMap<string,int>> &map2, MyMap<string, MyMap<string,MyMap<string,i
 }
 
 //Funções para leitura do arquivo ==================================================================================================
-void readTreino(string &line, MyVec<MyVec<string>> &sentences){
+void readTreino(string &line, MyVec<MyVec<string>> &sentences, MyMap<string,int> &map1, MyMap<string,MyMap<string,int>> &map2,
+MyMap<string, MyMap<string,MyMap<string,int>>> &map3){
     //MyVec<MyVec<string>> sentences;
-    MyMap<string,int>map1;
-    MyMap<string,MyMap<string,int>>map2;
-    MyMap<string, MyMap<string,MyMap<string,int>>>map3;
+    // MyMap<string,int>map1;
+    // MyMap<string,MyMap<string,int>>map2;
+    // MyMap<string, MyMap<string,MyMap<string,int>>>map3;
     if(line == "COMECO_TREINO"){        
         do{
             //Primeiro, recebemos o consteúdo das linhas e formatamos para auxiliar na criação do dicionário
@@ -132,12 +132,15 @@ void readTreino(string &line, MyVec<MyVec<string>> &sentences){
             MyVec<string> tokens;             
             storage(line,tokens);
             sentences.push_back(tokens);
-            cout<< tokens<<endl;
+            //cout<< tokens<<endl;
             AddDictionary(tokens,map1,map2,map3);
         }
         while(line != "FINAL_TREINO");
-        //printMap1(map1);
-        //printMap2(map1,map2);
+        cout<<"================MAP1==================\n";
+        printMap1(map1);
+        cout<<"================MAP2==================\n";
+        printMap2(map1,map2);
+        cout<<"================MAP3==================\n";
         printMap3(map1,map2,map3);
         //cout<<"vetor final: "<<sentences;      
     } 
@@ -159,13 +162,17 @@ int main(int argc, char *argv[]){
     char kaux;
     int k = 0;
     MyVec<MyVec<string>> sentences;
+
     MyMap<string,int>map1;
     MyMap<string,MyMap<string,int>>map2;
     MyMap<string, MyMap<string,MyMap<string,int>>>map3;
+    MyMap<int,string>map1Sorted;
+    MyMap<int,MyMap<int,string>>map2Sorted;
+    MyMap<int, MyMap<int,MyMap<int,string>>>map3Sorted;
     
 
     while(getline(cin,line)){
-        readTreino(line,sentences);         
+        readTreino(line,sentences,map1,map2,map3);         
         //faremos isso para ignorar a linha "FINAL_TREINO"
         // if(line != "FINAL_TREINO"){
         // cin>>operation>>kaux>>word;
