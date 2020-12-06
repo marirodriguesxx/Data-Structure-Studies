@@ -206,8 +206,7 @@ MyVec<pair<string, int>> &sorted3){
     int cont = k;
     if(tokens.size()==3){
         cout<<"consultando apenas uma plavra\n";
-        sort1(map1,sorted1);
-        
+        sort1(map1,sorted1);        
         for(int i=0; i<sorted1.size(); i++){
             if(sorted1[i].first == tokens[2]){
                 cout<<sorted1[i].first<<" "<<"("<<sorted1[i].second<<")"<<"\n";
@@ -218,7 +217,15 @@ MyVec<pair<string, int>> &sorted3){
     }
     else if(tokens.size() == 4){
         cout<<"consultando duas palavras\n";
-        sort2(map1,map2,sorted2);        
+        sort2(map1,map2,sorted2);     
+        sort1(map1,sorted1);        
+        for(int i=0; i<sorted1.size(); i++){
+            if(sorted1[i].first == tokens[2]){
+                cout<<sorted1[i].first<<" "<<"("<<sorted1[i].second<<")"<<"\n";
+                k--;
+                if(k==0) break;
+            }
+        }   
         for(int i=0; i<sorted2.size(); i++){
             MyVec<string> sorted2aux;  
             storage(sorted2[i].first,sorted2aux);
@@ -232,6 +239,24 @@ MyVec<pair<string, int>> &sorted3){
     if(tokens.size()== 5){
         cout<<"consultando tres palavras\n";
         sort3(map1,map2,map3,sorted3);
+        sort2(map1,map2,sorted2);     
+        sort1(map1,sorted1);        
+        for(int i=0; i<sorted1.size(); i++){
+            if(sorted1[i].first == tokens[2]){
+                cout<<sorted1[i].first<<" "<<"("<<sorted1[i].second<<")"<<"\n";
+                k--;
+                if(k==0) break;
+            }
+        }   
+        for(int i=0; i<sorted2.size(); i++){
+            MyVec<string> sorted2aux;  
+            storage(sorted2[i].first,sorted2aux);
+            if(sorted2aux[1] == tokens[3] || sorted2aux[0] == tokens[2]){
+                cout<<sorted2[i].first<<" "<<"("<<sorted2[i].second<<")"<<"\n";
+                k--;
+                if(k==0) break;
+            }
+        }
             for(int i=0; i<sorted3.size(); i++){
                 MyVec<string> sorted3aux;  
                 storage(sorted3[i].first,sorted3aux);
