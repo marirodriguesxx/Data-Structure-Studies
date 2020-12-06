@@ -179,10 +179,6 @@ void AddDictionary( MyVec<string>& words, MyMap<string,int> &map1,
 //Funções para leitura do arquivo ==================================================================================================
 void readTreino(string &line, MyVec<MyVec<string>> &sentences, MyMap<string,int> &map1, MyMap<string,MyMap<string,int>> &map2,
 MyMap<string, MyMap<string,MyMap<string,int>>> &map3){
-    //MyVec<MyVec<string>> sentences;
-    // MyMap<string,int>map1;
-    // MyMap<string,MyMap<string,int>>map2;
-    // MyMap<string, MyMap<string,MyMap<string,int>>>map3;
     if(line == "COMECO_TREINO"){        
         do{
             //Primeiro, recebemos o consteúdo das linhas e formatamos para auxiliar na criação do dicionário
@@ -200,12 +196,13 @@ MyMap<string, MyMap<string,MyMap<string,int>>> &map3){
         //cout<<"vetor final: "<<sentences;      
     } 
 }
-void consultar(int k, const MyVec<string> &tokens, MyMap<string,int> &map1, MyMap<string,MyMap<string,int>> &map2,
+
+//Funções auxiliares para realizar consulta e geração ==================================================================================
+void consultar(int &k, const MyVec<string> &tokens, MyMap<string,int> &map1, MyMap<string,MyMap<string,int>> &map2,
 MyMap<string, MyMap<string,MyMap<string,int>>> &map3, MyVec<pair<string, int>> &sorted1,  MyVec<pair<string, int>> &sorted2,  
 MyVec<pair<string, int>> &sorted3){
-    int cont = k;
     if(tokens.size()==3){
-        cout<<"consultando apenas uma plavra\n";
+        //cout<<"consultando apenas uma plavra\n";
         sort1(map1,sorted1);        
         for(int i=0; i<sorted1.size(); i++){
             if(sorted1[i].first == tokens[2]){
@@ -216,16 +213,8 @@ MyVec<pair<string, int>> &sorted3){
         }
     }
     else if(tokens.size() == 4){
-        cout<<"consultando duas palavras\n";
+        //cout<<"consultando duas palavras\n";
         sort2(map1,map2,sorted2);     
-        sort1(map1,sorted1);        
-        for(int i=0; i<sorted1.size(); i++){
-            if(sorted1[i].first == tokens[2]){
-                cout<<sorted1[i].first<<" "<<"("<<sorted1[i].second<<")"<<"\n";
-                k--;
-                if(k==0) break;
-            }
-        }   
         for(int i=0; i<sorted2.size(); i++){
             MyVec<string> sorted2aux;  
             storage(sorted2[i].first,sorted2aux);
@@ -237,26 +226,8 @@ MyVec<pair<string, int>> &sorted3){
         }
     }
     if(tokens.size()== 5){
-        cout<<"consultando tres palavras\n";
+        //cout<<"consultando tres palavras\n";
         sort3(map1,map2,map3,sorted3);
-        sort2(map1,map2,sorted2);     
-        sort1(map1,sorted1);        
-        for(int i=0; i<sorted1.size(); i++){
-            if(sorted1[i].first == tokens[2]){
-                cout<<sorted1[i].first<<" "<<"("<<sorted1[i].second<<")"<<"\n";
-                k--;
-                if(k==0) break;
-            }
-        }   
-        for(int i=0; i<sorted2.size(); i++){
-            MyVec<string> sorted2aux;  
-            storage(sorted2[i].first,sorted2aux);
-            if(sorted2aux[1] == tokens[3] || sorted2aux[0] == tokens[2]){
-                cout<<sorted2[i].first<<" "<<"("<<sorted2[i].second<<")"<<"\n";
-                k--;
-                if(k==0) break;
-            }
-        }
             for(int i=0; i<sorted3.size(); i++){
                 MyVec<string> sorted3aux;  
                 storage(sorted3[i].first,sorted3aux);
@@ -268,25 +239,42 @@ MyVec<pair<string, int>> &sorted3){
         }
 
     }
+
 }
 
+void Padrao(int &k, const MyVec<string> &tokens, MyMap<string,int> &map1, MyMap<string,MyMap<string,int>> &map2,
+MyMap<string, MyMap<string,MyMap<string,int>>> &map3, MyVec<pair<string, int>> &sorted1,  MyVec<pair<string, int>> &sorted2,  
+MyVec<pair<string, int>> &sorted3){
+    for(int i=0; i<k; i++){
+
+    }
+}
+
+void Aleat(){
+
+}
+
+//Funções auxiliares para facilitar na leitura do arquivo ==========================================================================
 void readComando(string &line,MyMap<string,int> &map1, MyMap<string,MyMap<string,int>> &map2,
 MyMap<string, MyMap<string,MyMap<string,int>>> &map3, MyVec<pair<string, int>> &sorted1,  MyVec<pair<string, int>> &sorted2,  
 MyVec<pair<string, int>> &sorted3){
-    // convertendo para inteiro (k) o valor recebido no arquivo
-    cout<<"line: "<<line<<endl;
-    MyVec<string> tokens;  
+    //cout<<line<<endl;
+    MyVec<string> tokens; 
+    //precisamos separar as string recebidas e armazenar em um vetor, para que assim possamos realizar as operações necessárias 
     storage(line,tokens);
-
+    // convertendo para inteiro (k) o valor recebido no arquivo, para isso foi preciso converter a stringo do valor em char
+    //e, só após, converter para inteiro
     const char *cstr = tokens[1].c_str();
     int k = atoi(cstr);
     //cout<<"k: "<<k<<endl;
 
     if(tokens[0].compare("consultar") ==0){
         consultar(k,tokens,map1,map2,map3,sorted1,sorted2,sorted3);
+        cout<<"\n";
     }
-    else if (tokens[0].compare("gerar") ==0)
-        cout<<"estou gerando\n";
+    else if (tokens[0].compare("gerar") ==0){
+        //cout<<"estou gerando, tenha paciência \n";
+    }
 };
 
 
