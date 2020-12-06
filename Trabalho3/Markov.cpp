@@ -62,7 +62,7 @@ void sort1(MyMap<string, int> &map, MyVec<pair<string, int>> &sorted){
         it++;
     } 
     sort(sorted.begin(), sorted.end(), &bigger);
-    printSorted(sorted);
+    //printSorted(sorted);
   
 }
 void sort2(MyMap<string,int> &m1, MyMap<string,MyMap<string,int>> &m2, MyVec<pair<string, int>> &sorted){ 
@@ -84,7 +84,7 @@ void sort2(MyMap<string,int> &m1, MyMap<string,MyMap<string,int>> &m2, MyVec<pai
         it2++;
     }
     sort(sorted.begin(), sorted.end(), &bigger);
-    printSorted(sorted);
+    //printSorted(sorted);
   
 }
 void sort3(MyMap<string,int> &m1, MyMap<string,MyMap<string,int>> &m2,  MyMap<string, MyMap<string,MyMap<string,int>>> &m3, 
@@ -110,7 +110,7 @@ MyVec<pair<string, int>> &sorted){
         it3++;
     }
     sort(sorted.begin(), sorted.end(), &bigger);
-    printSorted(sorted);
+    //printSorted(sorted);
 }
 
 //Funções maps1, map2 e map3 auxiliares=============================================================================================
@@ -189,30 +189,78 @@ MyMap<string, MyMap<string,MyMap<string,int>>> &map3){
             getline(cin,line);
             if(line ==  "FINAL_TREINO") break;
             format(line);   
-            cout<<line<<endl;
+            //cout<<line<<endl;
             MyVec<string> tokens;             
             storage(line,tokens);
             sentences.push_back(tokens);
-            cout<< tokens<<endl;
+            //cout<< tokens<<endl;
             AddDictionary(tokens,map1,map2,map3);
         }
         while(line != "FINAL_TREINO");
         //cout<<"vetor final: "<<sentences;      
     } 
 }
+void consultar(int k, const MyVec<string> &tokens, MyMap<string,int> &map1, MyMap<string,MyMap<string,int>> &map2,
+MyMap<string, MyMap<string,MyMap<string,int>>> &map3, MyVec<pair<string, int>> &sorted1,  MyVec<pair<string, int>> &sorted2,  
+MyVec<pair<string, int>> &sorted3){
+    int cont = k;
+    if(tokens.size()==3){
+        cout<<"consultando apenas uma plavra\n";
+        sort1(map1,sorted1);
+        
+        for(int i=0; i<sorted1.size(); i++){
+            if(sorted1[i].first == tokens[2]){
+                cout<<sorted1[i].first<<" "<<"("<<sorted1[i].second<<")"<<"\n";
+                k--;
+                if(k==0) break;
+            }
+        }
+    }
+    else if(tokens.size() == 4){
+        cout<<"consultando duas palavras\n";
+        sort2(map1,map2,sorted2);        
+        for(int i=0; i<sorted2.size(); i++){
+            MyVec<string> sorted2aux;  
+            storage(sorted2[i].first,sorted2aux);
+            if(sorted2aux[1] == tokens[3] || sorted2aux[0] == tokens[2]){
+                cout<<sorted2[i].first<<" "<<"("<<sorted2[i].second<<")"<<"\n";
+                k--;
+                if(k==0) break;
+            }
+        }
+    }
+    if(tokens.size()== 5){
+        cout<<"consultando tres palavras\n";
+        sort3(map1,map2,map3,sorted3);
+            for(int i=0; i<sorted3.size(); i++){
+                MyVec<string> sorted3aux;  
+                storage(sorted3[i].first,sorted3aux);
+                if(sorted3aux[2] == tokens[4] ||sorted3aux[1] == tokens[3] || sorted3aux[0] == tokens[2]){
+                    cout<<sorted3[i].first<<" "<<"("<<sorted3[i].second<<")"<<"\n";
+                    k--;
+                    if(k==0) break;
+                }
+        }
 
-void readComando(string &operation, string &word,char &kaux, int &k,MyMap<string,int> &map1, MyMap<string,MyMap<string,int>> &map2,
+    }
+}
+
+void readComando(string &line,MyMap<string,int> &map1, MyMap<string,MyMap<string,int>> &map2,
 MyMap<string, MyMap<string,MyMap<string,int>>> &map3, MyVec<pair<string, int>> &sorted1,  MyVec<pair<string, int>> &sorted2,  
 MyVec<pair<string, int>> &sorted3){
     // convertendo para inteiro (k) o valor recebido no arquivo
-    k = atoi(&kaux);
-    if(operation.compare("consultar") ==0){
-        cout<<"estou consultando\n";
-        for(int i=0; i<k; i++){
+    cout<<"line: "<<line<<endl;
+    MyVec<string> tokens;  
+    storage(line,tokens);
 
-        }
+    const char *cstr = tokens[1].c_str();
+    int k = atoi(cstr);
+    //cout<<"k: "<<k<<endl;
+
+    if(tokens[0].compare("consultar") ==0){
+        consultar(k,tokens,map1,map2,map3,sorted1,sorted2,sorted3);
     }
-    else if (operation.compare("gerar") ==0)
+    else if (tokens[0].compare("gerar") ==0)
         cout<<"estou gerando\n";
 };
 
@@ -235,24 +283,26 @@ int main(int argc, char *argv[]){
     while(getline(cin,line)){
         readTreino(line,sentences,map1,map2,map3);         
         //faremos isso para ignorar a linha "FINAL_TREINO"
-        cout<<"================MAP1==================\n";
-        printMap1(map1);
-        cout<<"======MAP1  SORTED=========\n";
-        sort1(map1,sorted1);
-        cout<<"================MAP2==================\n";
-        printMap2(map1,map2);
-        cout<<"==========MAP2  SORTED==========\n";
-        sort2(map1,map2,sorted2);
-        cout<<"================MAP3==================\n";
-        printMap3(map1,map2,map3);
-        cout<<"==========MAP3  SORTED==========\n";
-        sort3(map1,map2,map3,sorted3);
-        // if(line != "FINAL_TREINO"){
+
+
+        if(line != "FINAL_TREINO"){
         // cin>>operation>>kaux>>word;
         // cout<<operation<<" "<<kaux<<" "<<word<<endl;
-        // readComando(operation,word,kaux,k,map1,map2,map3,sorted1,sorted2,sorted3);
-        // cout<<"k: "<<k<<endl;
-        // }               
+        readComando(line,map1,map2,map3,sorted1,sorted2,sorted3);
+    
+        }               
     }
+        // cout<<"================MAP1==================\n";
+        // printMap1(map1);
+        // cout<<"======MAP1  SORTED=========\n";
+        // sort1(map1,sorted1);
+        // cout<<"================MAP2==================\n";
+        // printMap2(map1,map2);
+        // cout<<"==========MAP2  SORTED==========\n";
+        // sort2(map1,map2,sorted2);
+        // cout<<"================MAP3==================\n";
+        // printMap3(map1,map2,map3);
+        // cout<<"==========MAP3  SORTED==========\n";
+        // sort3(map1,map2,map3,sorted3);
     return 0;
 }
