@@ -39,42 +39,56 @@ void storage(const string &line, MyVec<string> &tokens){
 }
 
 //Função que ordena de acordo com o valor ===========================================================================================
-bool smaller(const pair<string, int> &x, const pair<string, int> &y){ 
-    return (x.second < y.second); 
-}
-void sort1(MyMap<string, int> &map){ 
-    MyVec<pair<string, int>> sorted;
-    MyMapIterator<string, int> it = map.begin();
-    while(it != map.end()){
-        sorted.push_back(make_pair((*it).first, (*it).second));
-        it++;
-    } 
-    sort(sorted.begin(), sorted.end(), &smaller);
+void printSorted(MyVec<pair<string, int>> sorted){
     for (int i = 0; i < sorted.size(); i++)	{
 		cout << sorted[i].first << ": " << sorted[i].second << endl;
 	}
+}
+
+bool bigger(const pair<string, int> &x, const pair<string, int> &y){ 
+    return (x.second > y.second); 
+}
+void sort1(MyMap<string, int> &map, MyVec<pair<string, int>> &sorted){ 
+    //MyVec<pair<string, int>> sorted;
+    MyMapIterator<string, int> it = map.begin();
+    while(it != map.end()){
+        bool insere = true;
+        for(int i=0;i<sorted.size();i++){
+            if(sorted[i].first==(*it).first) 
+                insere = false;
+        }
+        if(insere)
+            sorted.push_back(make_pair((*it).first, (*it).second));
+        it++;
+    } 
+    sort(sorted.begin(), sorted.end(), &bigger);
+    printSorted(sorted);
   
 }
-void sort2(MyMap<string,int> &m1, MyMap<string,MyMap<string,int>> &m2){ 
-    MyVec<pair<string, int>> sorted;
+void sort2(MyMap<string,int> &m1, MyMap<string,MyMap<string,int>> &m2, MyVec<pair<string, int>> &sorted){ 
+    //MyVec<pair<string, int>> sorted;
     MyMapIterator<string,MyMap<string,int>> it2 = m2.begin();
     while(it2 != m2.end()){
         MyMapIterator<string, int> it1 = (*it2).second.begin();
             while(it1 != m1.end()){
                 string chave = (*it2).first + " " + (*it1).first;
-                sorted.push_back(make_pair(chave, (*it1).second));
+                bool insere = true;
+                for(int i=0;i<sorted.size();i++){
+                    if(sorted[i].first==chave) 
+                        insere = false;
+                }
+                if(insere)
+                    sorted.push_back(make_pair(chave, (*it1).second));
                 it1++;
             }
         it2++;
     }
-    sort(sorted.begin(), sorted.end(), &smaller);
-    for (int i = 0; i < sorted.size(); i++)	{
-		cout << sorted[i].first << ": " << sorted[i].second << endl;
-	}
+    sort(sorted.begin(), sorted.end(), &bigger);
+    printSorted(sorted);
   
 }
-void sort3(MyMap<string,int> &m1, MyMap<string,MyMap<string,int>> &m2,  MyMap<string, MyMap<string,MyMap<string,int>>> &m3){
-    MyVec<pair<string, int>> sorted;
+void sort3(MyMap<string,int> &m1, MyMap<string,MyMap<string,int>> &m2,  MyMap<string, MyMap<string,MyMap<string,int>>> &m3, 
+MyVec<pair<string, int>> &sorted){
     MyMapIterator<string, MyMap<string,MyMap<string,int>>> it3 = m3.begin();
     while(it3 != m3.end()){
         MyMapIterator<string,MyMap<string,int>> it2 = (*it3).second.begin();
@@ -82,19 +96,22 @@ void sort3(MyMap<string,int> &m1, MyMap<string,MyMap<string,int>> &m2,  MyMap<st
             MyMapIterator<string, int> it1 = (*it2).second.begin();
             while(it1 != m1.end()){
                 string chave = (*it3).first + " " + (*it2).first + " "+(*it1).first;
-                sorted.push_back(make_pair(chave, (*it1).second));
+                bool insere = true;
+                for(int i=0;i<sorted.size();i++){
+                    if(sorted[i].first==chave) 
+                        insere = false;
+                }
+                if(insere)
+                    sorted.push_back(make_pair(chave, (*it1).second));
                 it1++;
             }
             it2++;
         }
         it3++;
     }
-    sort(sorted.begin(), sorted.end(), &smaller);
-    for (int i = 0; i < sorted.size(); i++)	{
-		cout << sorted[i].first << ": " << sorted[i].second << endl;
-	}
+    sort(sorted.begin(), sorted.end(), &bigger);
+    printSorted(sorted);
 }
-
 
 //Funções maps1, map2 e map3 auxiliares=============================================================================================
 void createmap1 (MyMap<string,int> &map1,  MyVec<string>& words){    
@@ -180,27 +197,21 @@ MyMap<string, MyMap<string,MyMap<string,int>>> &map3){
             AddDictionary(tokens,map1,map2,map3);
         }
         while(line != "FINAL_TREINO");
-        cout<<"================MAP1==================\n";
-        printMap1(map1);
-        cout<<"================MAP1  SORTED==================\n";
-        sort1(map1);
-        cout<<"================MAP2==================\n";
-        printMap2(map1,map2);
-        cout<<"================MAP2  SORTED==================\n";
-        sort2(map1,map2);
-        cout<<"================MAP3==================\n";
-        printMap3(map1,map2,map3);
-        cout<<"================MAP3  SORTED==================\n";
-        sort3(map1,map2,map3);
         //cout<<"vetor final: "<<sentences;      
     } 
 }
 
-void readComando(string &operation, string &word,char &kaux, int &k){
+void readComando(string &operation, string &word,char &kaux, int &k,MyMap<string,int> &map1, MyMap<string,MyMap<string,int>> &map2,
+MyMap<string, MyMap<string,MyMap<string,int>>> &map3, MyVec<pair<string, int>> &sorted1,  MyVec<pair<string, int>> &sorted2,  
+MyVec<pair<string, int>> &sorted3){
     // convertendo para inteiro (k) o valor recebido no arquivo
     k = atoi(&kaux);
-    if(operation.compare("consultar") ==0)
+    if(operation.compare("consultar") ==0){
         cout<<"estou consultando\n";
+        for(int i=0; i<k; i++){
+
+        }
+    }
     else if (operation.compare("gerar") ==0)
         cout<<"estou gerando\n";
 };
@@ -216,18 +227,30 @@ int main(int argc, char *argv[]){
     MyMap<string,int>map1;
     MyMap<string,MyMap<string,int>>map2;
     MyMap<string, MyMap<string,MyMap<string,int>>>map3;
-    MyMap<int,string>map1Sorted;
-    MyMap<int,MyMap<int,string>>map2Sorted;
-    MyMap<int, MyMap<int,MyMap<int,string>>>map3Sorted;
+    MyVec<pair<string, int>> sorted1;
+    MyVec<pair<string, int>> sorted2;
+    MyVec<pair<string, int>> sorted3;
     
 
     while(getline(cin,line)){
         readTreino(line,sentences,map1,map2,map3);         
         //faremos isso para ignorar a linha "FINAL_TREINO"
+        cout<<"================MAP1==================\n";
+        printMap1(map1);
+        cout<<"======MAP1  SORTED=========\n";
+        sort1(map1,sorted1);
+        cout<<"================MAP2==================\n";
+        printMap2(map1,map2);
+        cout<<"==========MAP2  SORTED==========\n";
+        sort2(map1,map2,sorted2);
+        cout<<"================MAP3==================\n";
+        printMap3(map1,map2,map3);
+        cout<<"==========MAP3  SORTED==========\n";
+        sort3(map1,map2,map3,sorted3);
         // if(line != "FINAL_TREINO"){
         // cin>>operation>>kaux>>word;
         // cout<<operation<<" "<<kaux<<" "<<word<<endl;
-        // readComando(operation,word,kaux,k);
+        // readComando(operation,word,kaux,k,map1,map2,map3,sorted1,sorted2,sorted3);
         // cout<<"k: "<<k<<endl;
         // }               
     }
