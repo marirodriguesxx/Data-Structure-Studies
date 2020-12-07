@@ -9,33 +9,125 @@
 #include <algorithm>
 using namespace std;
 
+//Funções imprime para cada map =====================================================================================================
+void printMap1(MyMap<string,int> &m1){
+    MyMapIterator<string, int> it1 = m1.begin();
+    while(it1 != m1.end()){
+        cout<<(*it1).first <<" "<<"("<< (*it1).second<<")"<<"\n";
+        it1++;
+    }
+}
+void printMap2(MyMap<string,int> &m1, MyMap<string,MyMap<string,int>> &m2){
+    MyMapIterator<string,MyMap<string,int>> it2 = m2.begin();
+    while(it2 != m2.end()){
+        MyMapIterator<string, int> it1 = (*it2).second.begin();
+            while(it1 != m1.end()){
+                cout<<(*it2).first <<" "<<(*it1).first<<" "<<"("<< (*it1).second<<")"<<"\n";
+                it1++;
+            }
+            it2++;
+    }
+}
+void printMap3(MyMap<string,int> &m1, MyMap<string,MyMap<string,int>> &m2,  MyMap<string, MyMap<string,MyMap<string,int>>> &m3){
+    MyMapIterator<string, MyMap<string,MyMap<string,int>>> it3 = m3.begin();
+    while(it3 != m3.end()){
+        MyMapIterator<string,MyMap<string,int>> it2 = (*it3).second.begin();
+        while(it2 != m2.end()){
+            MyMapIterator<string, int> it1 = (*it2).second.begin();
+            while(it1 != m1.end()){
+                cout<<(*it3).first<<" "<<(*it2).first <<" "<<(*it1).first<<" "<<"("<< (*it1).second<<")"<<"\n";
+                it1++;
+            }
+            it2++;
+        }
+        it3++;
+    }
+}
+
 //Função responsável pela remoção dos caracteres indesejaveis =======================================================================
 void format(string &line){
     int tam =line.size()+1;
     for(int i=0; i<tam;i++){
         //A estratégia usada foi uma dica dada pelo professor. Consiste na troca de todos os caracteres que não forem letras do alfabeto serem trocados por uma quebra de linha
         //Dessa forma, sera mais facil a passagem para um vetor auxiliar, o qual armazenara apenas as string relevantes para nosso dicionario
-        if(!isalpha(line[i]) && line[i] != '-'){
-            line[i] = '\n';
+        if(line[i] == '\n' || line[i] =='\t' ||line[i] =='\'' ||line[i] =='\"' || line[i] == ' '){
+            line[i] = ' ';
         }
-        else if(isupper(line[i])){          //Se for uma letra maíscula, transformamos para minúscula
+        else if(isalpha(line[i]) || line[i] == '-'){
             line[i] = tolower(line[i]);
+        }
+        else{          //Se for uma letra maíscula, transformamos para minúscula
+            line[i] = '\n';
         }
     }
 };
 
+//Funções maps1, map2 e map3 auxiliares=============================================================================================
+void createmap1 (MyMap<string,int> &map1,  MyVec<string>& words){  
+        map1[words[0]]++;
+    
+}
+void createmap2(MyMap<string,MyMap<string,int>> &map2,  MyMap<string,int> &map1, MyVec<string>& words){
+        map2[words[0]][words[1]]++;    
+    
+}
+void createmap3(MyMap<string, MyMap<string,MyMap<string,int>>> &map3,MyMap<string,MyMap<string,int>> &map2,  
+MyMap<string,int> &map1, MyVec<string>& words){
+        map3[words[0]][words[1]][words[2]]++;    
+}
+
+//Função para criação do dicionário ================================================================================================
+void AddDictionary( MyVec<string>& words, MyMap<string,int> &map1,
+    MyMap<string,MyMap<string,int>> &map2, MyMap<string, MyMap<string,MyMap<string,int>>> &map3, int tam){
+    
+    if(tam>=1){
+        createmap1(map1,words);
+    }
+    if(tam>=2){
+        createmap2(map2,map1,words);
+    }
+    if(tam>=3){
+        createmap3(map3,map2,map1,words);
+    }
+    
+}
+
+
 //Funcao que auxilia no armazenamento das palavras importantes ======================================================================
 void storage(const string &line, MyVec<string> &tokens){
     //Aqui, ieremos salvar em uma string auxiliar apenas as palvras ja formatas e importantes para o dicionario em um vetor
+    //cout<<line<<endl;
+    string tok;
     istringstream aux(line);
     while(aux){
-        string tok;
-        aux >> tok;
-        //cout << "token: " << tok << endl;
         // cout<<"Tok size: "<<tok.size()<<endl;
         if(tok.size()>0) //para nao salvarmos strings vazias em
             tokens.push_back(tok);
     }
+}
+void storage(const string &line, MyMap<string,int> &map1,
+    MyMap<string,MyMap<string,int>> &map2, MyMap<string, MyMap<string,MyMap<string,int>>> &map3){
+    //Aqui, ieremos salvar em uma string auxiliar apenas as palvras ja formatas e importantes para o dicionario em um vetor
+    string tok;
+    istringstream aux(line);
+    while(getline(aux,tok,'\n')){
+        istringstream aux2(tok);
+        string word ,lastword, midword, firstword;
+        MyVec<string> words(3);
+        int cont = 0;
+        while(aux2>>word){
+            swap(words[2],words[1]);
+            swap(words[1],words[0]);
+            words[0] = word;
+            cont++;
+            if(words.size()>0)
+            AddDictionary(words,map1,map2,map3,cont);
+        }
+    }
+    //printMap1(map1);
+    //printMap2(map1,map2);
+    // printMap3
+    
 }
 
 //Função que ordena de acordo com o valor ===========================================================================================
@@ -113,114 +205,33 @@ MyVec<pair<string, int>> &sorted){
     //printSorted(sorted);
 }
 
-//Funções maps1, map2 e map3 auxiliares=============================================================================================
-void createmap1 (MyMap<string,int> &map1,  MyVec<string>& words){    
-    for(int i=0; i<words.size(); i++){
-        map1[words[i]]++;
-    }
-}
-void createmap2(MyMap<string,MyMap<string,int>> &map2,  MyMap<string,int> &map1, MyVec<string>& words){
-   for(int i=0; i<words.size()-1; i++){
-        map2[words[i]][words[i+1]]++;    
-    }
-}
-void createmap3(MyMap<string, MyMap<string,MyMap<string,int>>> &map3,MyMap<string,MyMap<string,int>> &map2,  
-MyMap<string,int> &map1, MyVec<string>& words){
-    for(int i=0; i<words.size()-2; i++){
-       //cout<<words[i]<<" "<<words[i+1]<<" "<<words[i+2]<<endl;
-        map3[words[i]][words[i+1]][words[i+2]]++;    
-    }
-}
 
-//Funções imprime para cada map =====================================================================================================
-void printMap1(MyMap<string,int> &m1){
-    MyMapIterator<string, int> it1 = m1.begin();
-    while(it1 != m1.end()){
-        cout<<(*it1).first <<" "<<"("<< (*it1).second<<")"<<"\n";
-        it1++;
-    }
-}
-void printMap2(MyMap<string,int> &m1, MyMap<string,MyMap<string,int>> &m2){
-    MyMapIterator<string,MyMap<string,int>> it2 = m2.begin();
-    while(it2 != m2.end()){
-        MyMapIterator<string, int> it1 = (*it2).second.begin();
-            while(it1 != m1.end()){
-                cout<<(*it2).first <<" "<<(*it1).first<<" "<<"("<< (*it1).second<<")"<<"\n";
-                it1++;
-            }
-            it2++;
-    }
-}
-void printMap3(MyMap<string,int> &m1, MyMap<string,MyMap<string,int>> &m2,  MyMap<string, MyMap<string,MyMap<string,int>>> &m3){
-    MyMapIterator<string, MyMap<string,MyMap<string,int>>> it3 = m3.begin();
-    while(it3 != m3.end()){
-        MyMapIterator<string,MyMap<string,int>> it2 = (*it3).second.begin();
-        while(it2 != m2.end()){
-            MyMapIterator<string, int> it1 = (*it2).second.begin();
-            while(it1 != m1.end()){
-                cout<<(*it3).first<<" "<<(*it2).first <<" "<<(*it1).first<<" "<<"("<< (*it1).second<<")"<<"\n";
-                it1++;
-            }
-            it2++;
-        }
-        it3++;
-    }
-}
 
-//Função para criação do dicionário ================================================================================================
-void AddDictionary( MyVec<string>& words, MyMap<string,int> &map1,
-    MyMap<string,MyMap<string,int>> &map2, MyMap<string, MyMap<string,MyMap<string,int>>> &map3){
-    createmap1(map1,words);
-    createmap2(map2,map1,words);
-    createmap3(map3,map2,map1,words);
-    
-}
+
 
 //Funções para leitura do arquivo ==================================================================================================
-void split(string &line, MyVec<MyVec<string>> &sentences, MyMap<string,int> &map1, MyMap<string,MyMap<string,int>> &map2,
-MyMap<string, MyMap<string,MyMap<string,int>>> &map3){
-    //cout<<line<<endl;
-    int contvec = 0;
-    for(int i=0; i<line.size()-1; i++){
-        if(line[i]=='\n' && line[i+1]=='\n'){
-            contvec++;
-        }
-    }
-    //cout<<"Numero de vetores: "<<contvec<<endl;
-    //Faremos esse for para salvar as substrings
-    string delimiter = "\n\n";
-    int start=0;
-    string aux = line;
-    for(int i=0; i<contvec+1; i++){
-        string token = aux.substr(0, aux.find(delimiter));
-        int start = aux.find(delimiter)+1;
-        //cout<<"token :"<<token<<endl;
-        aux=aux.substr(start, aux.size());
-        //cout<<"aux: "<<aux<<endl;
-        MyVec<string> tokens;
-        storage(token,tokens);
-        //cout<< tokens<<endl;
-        sentences.push_back(tokens);
-        //cout<< tokens<<endl;
-        AddDictionary(tokens,map1,map2,map3);
-    }
-}
+
 void readTreino(string &line, MyVec<MyVec<string>> &sentences, MyMap<string,int> &map1, MyMap<string,MyMap<string,int>> &map2,
 MyMap<string, MyMap<string,MyMap<string,int>>> &map3){
-    if(line == "COMECO_TREINO"){        
+    if(line == "COMECO_TREINO"){  
+        string texto;      
         do{
             //Primeiro, recebemos o consteúdo das linhas e formatamos para auxiliar na criação do dicionário
             getline(cin,line);
             if(line ==  "FINAL_TREINO") break;
-            format(line);    
-            split(line,sentences,map1,map2,map3);        
+            format(line);
+            texto +=line;        
             //storage(line,tokens);
             // sentences.push_back(tokens);
             // cout<< tokens<<endl;
             // AddDictionary(tokens,map1,map2,map3);
         }
         while(line != "FINAL_TREINO");
-        cout<<"vetor final: "<<sentences;      
+        //cout<<"vetor final: "<<sentences;  
+        //cout<<texto<<endl;   
+        storage(texto,map1,map2,map3); 
+        // sentences.push_back(tokens);
+        // cout<<"vetor final: "<<sentences; 
     } 
 }
 
