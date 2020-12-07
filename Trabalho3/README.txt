@@ -8,5 +8,5 @@ Matrícula: Es98875
         3 - https://stackoverflow.com/questions/313970/how-to-convert-stdstring-to-lower-case
         4 - https://pt.wikibooks.org/wiki/Programar_em_C%2B%2B/Manipulando_strings
         5 - https://stackoverflow.com/questions/36213391/read-every-word-in-a-string-c
-        6 - https://www.geeksforgeeks.org/sorting-a-vector-in-c/
+        6 - http://www.cplusplus.com/reference/algorithm/sort/
         7 - https://stackoverflow.com/questions/7352099/stdstring-to-char
