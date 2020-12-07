@@ -7,4 +7,5 @@ FINAL_TREINO
 consultar 5 voce
 consultar 5 voce vai
 consultar 5 voce vai tambem
-gerar 5 padrao oi
+gerar 5 padrao oi como
+gerar 4 aleat alaska hiu tchau
