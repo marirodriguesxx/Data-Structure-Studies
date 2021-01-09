@@ -1,8 +1,5 @@
-ESTRUTURA DE DADOS
+Data structure
 ==================
 
-alguns comandos úteis para a Mari não esquecer:
-- git push
-- git add .
-- git commit -m "MENSAGEM REALMENTE EXPLICATIVA DO QUE MUDOU"
+Projects developed in the practical activities of the course
 
